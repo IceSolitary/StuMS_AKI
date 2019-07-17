@@ -8,12 +8,12 @@ import java.sql.Statement;
 
 public class MySQLConnector {
 	 static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";  
-	    static final String DB_URL = "jdbc:mysql://localhost:3306/baidupostbardata?useSSL=false&serverTimezone=UTC";
+	    static final String DB_URL = "jdbc:mysql://localhost:3306/stuinfomanage?useSSL=false&serverTimezone=UTC";
 	 
 	 
 	    // 数据库的用户名与密码，需要根据自己的设置
 	    static final String USER = "root";
-	    static final String PASS = "123456";
+	    static final String PASS = "Heartcheerful";
 	    static Connection conn = null;
         static Statement stmt = null;
 	    
