@@ -25,7 +25,7 @@ CREATE TABLE `StuInfoManage`.`SC` (
 
 CREATE TABLE `StuInfoManage`.`course` (
   `cid` VARCHAR(10) NOT NULL,
-  `tid` VARCHAR(10) NULL,
+  `tid` VARCHAR(10) NOT NULL,
   `cname` VARCHAR(20) NULL,
   PRIMARY KEY (`cid`, `tid`));
 
@@ -46,21 +46,21 @@ ADD CONSTRAINT `fk_stu`
   FOREIGN KEY (`sid`)
   REFERENCES `StuInfoManage`.`user` (`id`)
   ON DELETE CASCADE
-  ON UPDATE RESTRICT;
+  ON UPDATE CASCADE;
 
 ALTER TABLE `StuInfoManage`.`nteacher` 
 ADD CONSTRAINT `fk_nteacher`
   FOREIGN KEY (`tid`)
   REFERENCES `StuInfoManage`.`user` (`id`)
   ON DELETE CASCADE
-  ON UPDATE RESTRICT;
+  ON UPDATE CASCADE;
 
 ALTER TABLE `StuInfoManage`.`steacher` 
 ADD CONSTRAINT `fk_steacher`
   FOREIGN KEY (`tid`)
   REFERENCES `StuInfoManage`.`user` (`id`)
   ON DELETE CASCADE
-  ON UPDATE RESTRICT;
+  ON UPDATE CASCADE;
 
 
 ALTER TABLE `StuInfoManage`.`course` 
@@ -88,12 +88,12 @@ ADD CONSTRAINT `fk_SCcid`
   ON DELETE CASCADE
   ON UPDATE CASCADE;
 
-INSERT INTO `StuInfoManage`.`user` (`id`, `password`, `role`) VALUES ('0000', '0000', '3');
-INSERT INTO `StuInfoManage`.`user` (`id`, `password`, `role`) VALUES ('1001', '1001', '2');
-INSERT INTO `StuInfoManage`.`user` (`id`, `password`, `role`) VALUES ('1002', '1002', '2');
-INSERT INTO `StuInfoManage`.`user` (`id`, `password`, `role`) VALUES ('1003', '1003', '2');
-INSERT INTO `StuInfoManage`.`user` (`id`, `password`, `role`) VALUES ('1004', '1004', '2');
-INSERT INTO `StuInfoManage`.`user` (`id`, `password`, `role`) VALUES ('1005', '1005', '2');
+INSERT INTO `StuInfoManage`.`user` (`id`, `password`, `role`) VALUES ('000000', '000000', '3');
+INSERT INTO `StuInfoManage`.`user` (`id`, `password`, `role`) VALUES ('000001', '000001', '2');
+INSERT INTO `StuInfoManage`.`user` (`id`, `password`, `role`) VALUES ('000002', '000002', '2');
+INSERT INTO `StuInfoManage`.`user` (`id`, `password`, `role`) VALUES ('000003', '000003', '2');
+INSERT INTO `StuInfoManage`.`user` (`id`, `password`, `role`) VALUES ('000004', '000004', '2');
+INSERT INTO `StuInfoManage`.`user` (`id`, `password`, `role`) VALUES ('000005', '000005', '2');
 INSERT INTO `StuInfoManage`.`user` (`id`, `password`, `role`) VALUES ('201701', '201701', '1');
 INSERT INTO `StuInfoManage`.`user` (`id`, `password`, `role`) VALUES ('201702', '201702', '1');
 INSERT INTO `StuInfoManage`.`user` (`id`, `password`, `role`) VALUES ('201703', '201703', '1');
@@ -107,29 +107,29 @@ INSERT INTO `StuInfoManage`.`stu` (`sid`, `name`, `sex`, `age`, `major`) VALUES 
 INSERT INTO `StuInfoManage`.`stu` (`sid`, `name`, `sex`, `age`, `major`) VALUES ('201704', '钱四', '1', '20', '硬件工程');
 INSERT INTO `StuInfoManage`.`stu` (`sid`, `name`, `sex`, `age`, `major`) VALUES ('201705', '孙五', '2', '20', '数据分析');
 
-INSERT INTO `StuInfoManage`.`nteacher` (`tid`, `tname`) VALUES ('1001', '周一一');
-INSERT INTO `StuInfoManage`.`nteacher` (`tid`, `tname`) VALUES ('1002', '吴二二');
-INSERT INTO `StuInfoManage`.`nteacher` (`tid`, `tname`) VALUES ('1003', '郑三三');
-INSERT INTO `StuInfoManage`.`nteacher` (`tid`, `tname`) VALUES ('1004', '冯四四');
-INSERT INTO `StuInfoManage`.`nteacher` (`tid`, `tname`) VALUES ('1005', '陈五五');
+INSERT INTO `StuInfoManage`.`nteacher` (`tid`, `tname`) VALUES ('000001', '周一一');
+INSERT INTO `StuInfoManage`.`nteacher` (`tid`, `tname`) VALUES ('000002', '吴二二');
+INSERT INTO `StuInfoManage`.`nteacher` (`tid`, `tname`) VALUES ('000003', '郑三三');
+INSERT INTO `StuInfoManage`.`nteacher` (`tid`, `tname`) VALUES ('000004', '冯四四');
+INSERT INTO `StuInfoManage`.`nteacher` (`tid`, `tname`) VALUES ('000005', '陈五五');
 
-INSERT INTO `StuInfoManage`.`steacher` (`tid`, `tname`) VALUES ('0000', '凌零零');
+INSERT INTO `StuInfoManage`.`steacher` (`tid`, `tname`) VALUES ('000000', '凌零零');
 
 
-INSERT INTO `StuInfoManage`.`course` (`cid`, `tid`, `cname`) VALUES ('001', '1001', '数据库');
-INSERT INTO `StuInfoManage`.`course` (`cid`, `tid`, `cname`) VALUES ('002', '1001', 'Python');
-INSERT INTO `StuInfoManage`.`course` (`cid`, `tid`, `cname`) VALUES ('003', '1002', '英语');
-INSERT INTO `StuInfoManage`.`course` (`cid`, `tid`, `cname`) VALUES ('004', '1002', '英语口语');
-INSERT INTO `StuInfoManage`.`course` (`cid`, `tid`, `cname`) VALUES ('005', '1003', '离散数学');
-INSERT INTO `StuInfoManage`.`course` (`cid`, `tid`, `cname`) VALUES ('006', '1003', '数据库');
-INSERT INTO `StuInfoManage`.`course` (`cid`, `tid`, `cname`) VALUES ('007', '1004', 'C#');
-INSERT INTO `StuInfoManage`.`course` (`cid`, `tid`, `cname`) VALUES ('008', '1005', '网页设计');
+INSERT INTO `StuInfoManage`.`course` (`cid`, `tid`, `cname`) VALUES ('100001', '000001', '数据库');
+INSERT INTO `StuInfoManage`.`course` (`cid`, `tid`, `cname`) VALUES ('100002', '000001', 'Python');
+INSERT INTO `StuInfoManage`.`course` (`cid`, `tid`, `cname`) VALUES ('100003', '000002', '英语');
+INSERT INTO `StuInfoManage`.`course` (`cid`, `tid`, `cname`) VALUES ('100004', '000002', '英语口语');
+INSERT INTO `StuInfoManage`.`course` (`cid`, `tid`, `cname`) VALUES ('100005', '000003', '离散数学');
+INSERT INTO `StuInfoManage`.`course` (`cid`, `tid`, `cname`) VALUES ('100006', '000003', '数据库');
+INSERT INTO `StuInfoManage`.`course` (`cid`, `tid`, `cname`) VALUES ('100007', '000004', 'C#');
+INSERT INTO `StuInfoManage`.`course` (`cid`, `tid`, `cname`) VALUES ('100008', '000005', '网页设计');
 
-INSERT INTO `StuInfoManage`.`SC` (`sid`, `cid`, `grade`) VALUES ('201701', '001', '99');
-INSERT INTO `StuInfoManage`.`SC` (`sid`, `cid`, `grade`) VALUES ('201701', '002', '66');
-INSERT INTO `StuInfoManage`.`SC` (`sid`, `cid`, `grade`) VALUES ('201701', '005', '60');
-INSERT INTO `StuInfoManage`.`SC` (`sid`, `cid`, `grade`) VALUES ('201702', '004', '89');
-INSERT INTO `StuInfoManage`.`SC` (`sid`, `cid`, `grade`) VALUES ('201703', '002', '99');
-INSERT INTO `StuInfoManage`.`SC` (`sid`, `cid`, `grade`) VALUES ('201703', '003', '37');
-INSERT INTO `StuInfoManage`.`SC` (`sid`, `cid`, `grade`) VALUES ('201704', '001', '90');
-INSERT INTO `StuInfoManage`.`SC` (`sid`, `cid`, `grade`) VALUES ('201705', '004', '24');
+INSERT INTO `StuInfoManage`.`SC` (`sid`, `cid`, `grade`) VALUES ('201701', '100001', '99');
+INSERT INTO `StuInfoManage`.`SC` (`sid`, `cid`, `grade`) VALUES ('201701', '100002', '66');
+INSERT INTO `StuInfoManage`.`SC` (`sid`, `cid`, `grade`) VALUES ('201701', '100005', '60');
+INSERT INTO `StuInfoManage`.`SC` (`sid`, `cid`, `grade`) VALUES ('201702', '100004', '89');
+INSERT INTO `StuInfoManage`.`SC` (`sid`, `cid`, `grade`) VALUES ('201703', '100002', '99');
+INSERT INTO `StuInfoManage`.`SC` (`sid`, `cid`, `grade`) VALUES ('201703', '100003', '37');
+INSERT INTO `StuInfoManage`.`SC` (`sid`, `cid`, `grade`) VALUES ('201704', '100001', '90');
+INSERT INTO `StuInfoManage`.`SC` (`sid`, `cid`, `grade`) VALUES ('201705', '100004', '24');
