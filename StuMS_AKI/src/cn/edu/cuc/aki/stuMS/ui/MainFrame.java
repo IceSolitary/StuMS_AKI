@@ -38,9 +38,7 @@ public class MainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public MainFrame() {
-		super("学生信息成绩管理系统");
-
-		String lookAndFeel = UIManager.getSystemLookAndFeelClassName(); 
+		String lookAndFeel = "javax.swing.plaf.metal.MetalLookAndFeel"; 
 		try {
 			UIManager.setLookAndFeel(lookAndFeel);
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
@@ -66,7 +64,7 @@ public class MainFrame extends JFrame {
 		this.cardPanel.add(this.loginPanel, "LoginView");
 		this.cardPanel.add(this.studentPanel, "StudentView");
 		
-		this.cardLayout.show(cardPanel, "LoginView");
+		this.showLoginView();
 		
 		this.showComponents();
 	}
@@ -83,6 +81,7 @@ public class MainFrame extends JFrame {
 		titleBox.add(Box.createHorizontalGlue());
 		titleBox.add(this.titleLable);
 		titleBox.add(Box.createHorizontalGlue());
+		northBox.add(Box.createVerticalStrut(10));
 		
 		this.contentPane.add(this.cardPanel, BorderLayout.CENTER);
 		
@@ -90,14 +89,18 @@ public class MainFrame extends JFrame {
 	}
 	
 	public void showLoginView() {
-		this.cardLayout.show(cardPanel, "LoginView");
 		this.northVS.setPreferredSize(new Dimension(5, 100));
 		this.setTitle("学生信息成绩管理系统  --  登录");
+		this.cardLayout.show(cardPanel, "LoginView");
+		this.loginPanel.initData();
+		this.setSize(800, 600);
 	}
 	
 	public void showStudentView() {
 		this.northVS.setPreferredSize(new Dimension(5, 10));
 		this.setTitle("学生信息成绩管理系统  --  学生  --  " + this.studentPanel.getId());
-		this.cardLayout.show(this.cardPanel, "LoginView");
+		this.cardLayout.show(this.cardPanel, "StudentView");
+		this.studentPanel.initData();
+		this.setSize(801, 600); // cardLayout 切换时northVS显示不会改变，将宽度改变后才会更新，原因不明qwq PS:直接在构造函数调用这个函数northVS会变化
 	}
 }

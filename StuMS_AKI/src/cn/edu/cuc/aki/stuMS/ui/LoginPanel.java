@@ -44,7 +44,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 	
 	/**
 	 * Constructor
-	 * @param parentFrame JFrame; the JFrame containing the Panel
+	 * @param parentFrame MainFrame; the JFrame contains the Panel
 	 */
 	public LoginPanel(MainFrame parentFrame) {
 		this.parentFrame = parentFrame;
@@ -56,6 +56,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 		this.loginLabel.setFont(new Font("Book Antiqua", Font.PLAIN, 18));
 		this.tipLabel.setFont(new Font("Book Antiqua", Font.PLAIN, 12));
 		this.idLabel.setFont(new Font("Arial Narrow", Font.PLAIN, 12));
+		this.pwLabel.setFont(new Font("Arial Narrow", Font.PLAIN, 12));
 		try {
 			MaskFormatter ms = new MaskFormatter("######");
 			ms.setPlaceholderCharacter('+');
@@ -64,8 +65,9 @@ public class LoginPanel extends JPanel implements ActionListener {
 			e1.printStackTrace();
 		}
 		this.idTextField.setColumns(15);
-		this.pwLabel.setFont(new Font("Arial Narrow", Font.PLAIN, 12));
+		this.idTextField.setToolTipText("请输入6位数字的ID (/≧▽≦)/");
 		this.pwTextField.setEchoChar('*');
+		this.pwTextField.setToolTipText("请输入ID对应的密码 (*/ω\\ *)");
 		this.loginButton.setFont(new Font("Sim Sun 12", Font.PLAIN, 12));
 		this.loginButton.setPreferredSize(new Dimension(260, 25));
 		
@@ -99,6 +101,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 		});
 		
 		this.showComponents();
+		this.initData();
 	}
 	
 	/**
@@ -108,7 +111,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 		Box b1 = Box.createVerticalBox();
 		this.add(new JPanel().add(b1), BorderLayout.CENTER);
 		
-		b1.add(Box.createVerticalStrut(90));
+		b1.add(Box.createVerticalStrut(85));
 		
 		Box loginLableBox = Box.createHorizontalBox();
 		b1.add(loginLableBox);
@@ -116,7 +119,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 		loginLableBox.add(this.loginLabel);
 		loginLableBox.add(Box.createHorizontalGlue());
 		
-		b1.add(Box.createVerticalStrut(5));
+		b1.add(Box.createVerticalStrut(8));
 		
 		Box tipLableBox = Box.createHorizontalBox();
 		b1.add(tipLableBox);
@@ -146,7 +149,12 @@ public class LoginPanel extends JPanel implements ActionListener {
 		loginButtonBox.add(this.loginButton);
 		loginButtonBox.add(Box.createHorizontalGlue());
 		
-		b1.add(Box.createVerticalStrut(190));
+		b1.add(Box.createVerticalStrut(185));
+	}
+	
+	public void initData() {
+		this.idTextField.setText("");
+		this.pwTextField.setText("");
 	}
 
 	// setter & getter
@@ -176,7 +184,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 			int role = LoginTools.login(inputId, inputPw);
 			switch (role) {
 			case 1:
-				this.parentFrame.studentPanel.setId(Integer.valueOf(inputId));
+				this.parentFrame.studentPanel.setId(inputId);
 				this.parentFrame.showStudentView();
 				break;
 			default:
