@@ -2,8 +2,9 @@ package cn.edu.cuc.aki.stuMS.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Map;
 import java.awt.event.ActionEvent;
 
 import javax.swing.Box;
@@ -13,16 +14,18 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
+import cn.edu.cuc.aki.stuMS.tools.StuTools;
+
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
 
 public class StudentPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	private MainFrame parentFrame;
+//	private MainFrame parentFrame;
 	private String id = "";
 	
 	// TabbedPanes
@@ -52,7 +55,7 @@ public class StudentPanel extends JPanel {
 	 * @param parentFrame JFrame; the JFrame containing the Panel
 	 */
 	public StudentPanel(MainFrame parentFrame) {
-		this.parentFrame = parentFrame;
+//		this.parentFrame = parentFrame;
 				
 		this.setLayout(new BorderLayout());
 		
@@ -68,14 +71,15 @@ public class StudentPanel extends JPanel {
 		});
 		this.changingPwButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ChangingPwDialog().setVisible(true);
+				new ChangingPwDialog(parentFrame.studentPanel.id).setVisible(true);
 			}
 		});
 		
+		this.scTable = new JTable(this.scModel);
+		
 		this.initData();
 		
-		this.scTable = new JTable(this.scModel);
-		this.scTable.setRowSorter(new TableRowSorter<TableModel>(this.scModel));
+        this.scTable.setRowSorter(new TableRowSorter<TableModel>(this.scModel));
 		
 		this.showComponents();
 	}
@@ -160,10 +164,26 @@ public class StudentPanel extends JPanel {
 	// setter & getter END
 	
 	public void initData() {
-		// TODO: SC Data
-		String[][] tableData;
-        
-        String[] name={"课程号", "课程名", "教工号", "教师名", "成绩"};
-//        this.scModel = new NotEditableTableModel(tableData, name);
+		if (!this.id.equals("")) {
+			Map<String, String> stuInfoMap = StuTools.selectStuInfo(this.id);
+			this.idLable.setText(stuInfoMap.get("sid"));
+			this.nameLable.setText(stuInfoMap.get("name"));
+			this.sexLable.setText(stuInfoMap.get("sex"));
+			this.ageLable.setText(stuInfoMap.get("age"));
+			this.majorLable.setText(stuInfoMap.get("major"));
+			
+			ArrayList<String[]> arrayData = StuTools.selectStuGrade(this.id);
+			int rowCount = arrayData.size();
+			String[][] tableData = new String[rowCount][5];
+			for (int i = 0; i < arrayData.size(); i++) {
+				tableData[i] = arrayData.get(i);
+			}
+			
+	        String[] name={"课程号", "课程名", "教工号", "教师名", "成绩"};
+	        
+	        this.scModel = new NotEditableTableModel(tableData, name);
+	        this.scTable.setModel(this.scModel);
+	        this.scTable.setRowSorter(new TableRowSorter<TableModel>(this.scModel));
+		}
 	}
 }

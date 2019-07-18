@@ -8,6 +8,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -22,10 +23,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import cn.edu.cuc.aki.stuMS.tools.StuTools;
+
 public class TeacherPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	private MainFrame parentFrame;
+//	private MainFrame parentFrame;
 	private String id = "";
 	
 	// TabbedPanes
@@ -49,8 +52,8 @@ public class TeacherPanel extends JPanel {
 	ArrayList<String[]> ctData;
 	
 	// scPanel Components
-	JComboBox<String> scCourseComboBox; 
-	JComboBox<String> scStudentComboBox;
+	JComboBox<String> scCourseComboBox = new JComboBox<String>();
+	JComboBox<String> scStudentComboBox = new JComboBox<String>();
 	JTable scTable;
 	// scPanel Data
 	TableModel scModel;
@@ -66,7 +69,7 @@ public class TeacherPanel extends JPanel {
 	 * @param parentFrame JFrame; the JFrame containing the Panel
 	 */
 	public TeacherPanel(MainFrame parentFrame) {
-		this.parentFrame = parentFrame;
+//		this.parentFrame = parentFrame;
 		
 		this.setLayout(new BorderLayout());
 		
@@ -83,7 +86,7 @@ public class TeacherPanel extends JPanel {
 		});
 		this.changingPwButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ChangingPwDialog().setVisible(true);
+				new ChangingPwDialog(parentFrame.teacherPanel.getId()).setVisible(true);
 			}
 		});
 		
@@ -126,8 +129,12 @@ public class TeacherPanel extends JPanel {
 				
 				// refresh scTable
 				String[] scName = {"课程号", "课程名", "学生号", "学生名", "成绩"};
-				parentFrame.teacherPanel.scModel = new NotEditableTableModel((String[][]) parentFrame.teacherPanel.currentScData.toArray(), scName);
-//				parentFrame.teacherPanel.scTable = new JTable(parentFrame.teacherPanel.scModel);
+				int cscRowCount = currentScData.size();
+		        String[][] cscData = new String[cscRowCount][5];
+		        for (int i = 0; i < cscRowCount; i++) {
+					cscData[i] = currentScData.get(i);
+				}
+				parentFrame.teacherPanel.scModel = new NotEditableTableModel(cscData, scName);
 				parentFrame.teacherPanel.scTable.setModel(parentFrame.teacherPanel.scModel);
 			}
 		});
@@ -170,17 +177,22 @@ public class TeacherPanel extends JPanel {
 				
 				// refresh scTable
 				String[] scName = {"课程号", "课程名", "学生号", "学生名", "成绩"};
-				parentFrame.teacherPanel.scModel = new NotEditableTableModel((String[][]) parentFrame.teacherPanel.currentScData.toArray(), scName);
-//				parentFrame.teacherPanel.scTable = new JTable(parentFrame.teacherPanel.scModel);
+				int cscRowCount = currentScData.size();
+		        String[][] cscData = new String[cscRowCount][5];
+		        for (int i = 0; i < cscRowCount; i++) {
+					cscData[i] = currentScData.get(i);
+				}
+				parentFrame.teacherPanel.scModel = new NotEditableTableModel(cscData, scName);
 				parentFrame.teacherPanel.scTable.setModel(parentFrame.teacherPanel.scModel);
 			}
 		});
 		
-		this.initData();
-		
 		this.ctTable = new JTable(this.ctModel);
-		this.ctTable.setRowSorter(new TableRowSorter<TableModel>(this.ctModel));
 		this.scTable = new JTable(this.scModel);
+		
+		this.initData();
+
+		this.ctTable.setRowSorter(new TableRowSorter<TableModel>(this.ctModel));
 		this.scTable.setRowSorter(new TableRowSorter<TableModel>(this.scModel));
 		
 		this.showComponents();
@@ -250,7 +262,7 @@ public class TeacherPanel extends JPanel {
 		fliterBox.add(this.scCourseComboBox);
 		fliterBox.add(Box.createHorizontalStrut(50));
 		fliterBox.add(this.scStudentComboBox);
-		this.gradePanel.add(null, BorderLayout.NORTH);
+		this.gradePanel.add(fliterBox, BorderLayout.NORTH);
 		this.gradePanel.add(new JScrollPane(this.scTable), BorderLayout.CENTER);
 		// gradePanel END
 		
@@ -277,32 +289,56 @@ public class TeacherPanel extends JPanel {
 	// setter & getter END
 	
 	public void initData() {
-		// TODO: get ctData & scData & currentScData
-		
-		// set scCourseComboBox & scStudentCombox Data
-		ArrayList<String> allCourses = new ArrayList<String>();
-		ArrayList<String> allStudents = new ArrayList<String>();
-		allCourses.add("全部");
-		allStudents.add("全部");
-		for (int i = 0; i < this.scData.size(); i++) {
-			String courseItem = this.scData.get(i)[0] + " " + this.scData.get(i)[1];
-			if (allCourses.contains(courseItem)) {
-				allCourses.add(courseItem);
+		if (!this.id.equals("")) {
+			Map<String, String> teaInfoMap = StuTools.selectStuInfo(this.id);
+			this.idLable.setText(teaInfoMap.get("sid"));
+			this.nameLable.setText(teaInfoMap.get("name"));
+			this.sexLable.setText(teaInfoMap.get("sex"));
+			this.ageLable.setText(teaInfoMap.get("age"));
+			this.majorLable.setText(teaInfoMap.get("major"));
+			
+			// TODO: get ctData & scData & currentScData
+			
+			
+			// set scCourseComboBox & scStudentCombox Data
+			ArrayList<String> allCourses = new ArrayList<String>();
+			ArrayList<String> allStudents = new ArrayList<String>();
+			allCourses.add("全部");
+			allStudents.add("全部");
+			for (int i = 0; i < this.scData.size(); i++) {
+				String courseItem = this.scData.get(i)[0] + " " + this.scData.get(i)[1];
+				if (allCourses.contains(courseItem)) {
+					allCourses.add(courseItem);
+				}
+				String stuItem = this.scData.get(i)[2] + " " + this.scData.get(i)[3];
+				if (allStudents.contains(stuItem)) {
+					allStudents.add(stuItem);
+				}
 			}
-			String stuItem = this.scData.get(i)[2] + " " + this.scData.get(i)[3];
-			if (allStudents.contains(stuItem)) {
-				allStudents.add(stuItem);
+			this.scCourseComboBox = new JComboBox<String>((String[])allCourses.toArray());
+			this.scStudentComboBox = new JComboBox<String>((String[])allStudents.toArray());
+			
+			// TODO: CT Model
+	        String[] ctNames = {"课程号", "课程名"};
+	        int ctRowCount = this.ctData.size();
+	        String[][] ctData = new String[ctRowCount][2];
+	        for (int i = 0; i < this.ctData.size(); i++) {
+				ctData[i] = this.ctData.get(i);
 			}
+	        this.ctModel = new NotEditableTableModel(ctData, ctNames);
+	        this.ctTable.setModel(this.ctModel);
+	        this.ctTable.setRowSorter(new TableRowSorter<TableModel>(this.scModel));
+	        
+	        // TODO: SC Model
+	        String[] scName = {"课程号", "课程名", "学生号", "学生名", "成绩"};
+	        int scRowCount = this.scData.size();
+	        String[][] scData = new String[scRowCount][5];
+	        for (int i = 0; i < this.scData.size(); i++) {
+				scData[i] = this.scData.get(i);
+			}
+	        this.scModel = new NotEditableTableModel(scData, scName);
+	        this.scTable.setModel(this.scModel);
+	        this.scTable.setRowSorter(new TableRowSorter<TableModel>(this.scModel));
 		}
-		this.scCourseComboBox = new JComboBox<String>((String[])allCourses.toArray());
-		this.scStudentComboBox = new JComboBox<String>((String[])allStudents.toArray());
-		
-		// TODO: CT Model
-        String[] ctNames = {"课程号", "课程名"};
-        this.ctModel = new NotEditableTableModel((String[][]) this.ctData.toArray(), ctNames);
-        
-        // TODO: SC Model
-        String[] scName = {"课程号", "课程名", "学生号", "学生名", "成绩"};
-        this.scModel = new NotEditableTableModel((String[][]) this.scData.toArray(), scName);
 	}
 }

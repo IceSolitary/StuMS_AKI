@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 
+import cn.edu.cuc.aki.stuMS.tools.UserTools;
 import cn.edu.cuc.aki.stuMS.ui.listener.TextListener;
 
 import javax.swing.JLabel;
@@ -23,6 +24,8 @@ import java.awt.event.ActionEvent;
 public class ChangingPwDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	
+	private String id;
+	
 	private final JPanel contentPanel = new JPanel();
 	public JPasswordField passwordField;
 	public JPasswordField passwordField_1;
@@ -31,7 +34,9 @@ public class ChangingPwDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public ChangingPwDialog() {
+	public ChangingPwDialog(String id) {
+		this.id = id;
+		
 		setResizable(false);
 		setType(Type.UTILITY);
 		setTitle("\u4FEE\u6539\u5BC6\u7801");
@@ -108,8 +113,7 @@ public class ChangingPwDialog extends JDialog {
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ChangingPwDialog dialog = (ChangingPwDialog) SwingUtilities.getWindowAncestor((Component) e.getSource());
-				// TODO: 修改密码
-				
+				UserTools.alterPassword(String.valueOf(dialog.passwordField.getPassword()), dialog.id);
 				JOptionPane.showMessageDialog(dialog, "修改密码成功", "提示", JOptionPane.PLAIN_MESSAGE);
 				dialog.dispose();
 			}

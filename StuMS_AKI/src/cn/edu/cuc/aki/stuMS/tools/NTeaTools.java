@@ -131,24 +131,24 @@ public class NTeaTools implements LogIplm {
 	 * @param grade  修改后的新成绩
 	 * @throws CourseNotMatchStudentException
 	 */
-	public static void alterStuGrade(String tid, String sid, String kkid, int grade)
-			throws CourseNotMatchStudentException {
-		if (!VerifyTools.isCourseMatchStudent(cid, sid)) {
-			throw new CourseNotMatchStudentException();
-		}
-		String sql = "upadate course set grade = " + grade + " where cid = '" + cid + "'and sid = '" + sid + "';";
-		try {
-			MySQLConnector.connect(sql);
-
-		} catch (Exception e) {
-			// TODO: handle exception
-
-			System.out.println(e);
-		} finally {
-			// 完成后关闭
-			MySQLConnector.disconnect();
-		}
-	}
+//	public static void alterStuGrade(String tid, String sid, String kkid, int grade)
+//			throws CourseNotMatchStudentException {
+//		if (!VerifyTools.isCourseMatchStudent(cid, sid)) {
+//			throw new CourseNotMatchStudentException();
+//		}
+//		String sql = "upadate course set grade = " + grade + " where cid = '" + cid + "'and sid = '" + sid + "';";
+//		try {
+//			MySQLConnector.connect(sql);
+//
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//
+//			System.out.println(e);
+//		} finally {
+//			// 完成后关闭
+//			MySQLConnector.disconnect();
+//		}
+//	}
 
 	public static void addTCourse(String tid, String cid, String cname) throws TeacherNotExistException {
 		if (!VerifyTools.isTeacherExist(tid)) {

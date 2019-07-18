@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class MySQLConnector {
 	 static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";  
-	    static final String DB_URL = "jdbc:mysql://localhost:3306/stuinfomanage?useSSL=false&serverTimezone=UTC";
+	    static final String DB_URL = "jdbc:mysql://localhost:3306/stu_info_manage_system?useSSL=false&serverTimezone=UTC";
 	 
 	 
 	    // 数据库的用户名与密码，需要根据自己的设置
