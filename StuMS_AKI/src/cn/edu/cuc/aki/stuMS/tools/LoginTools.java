@@ -3,16 +3,13 @@ package cn.edu.cuc.aki.stuMS.tools;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
-
 import cn.edu.cuc.aki.stuMS.exception.IDNotExistException;
 import cn.edu.cuc.aki.stuMS.exception.PasswordErrorException;
 import cn.edu.cuc.aki.stuMS.tools.log.LogIplm;
 
-public class LoginTools implements LogIplm{
-	
-	public static int login(String id, String password) throws PasswordErrorException,IDNotExistException {
-		String sql = "select password from user where id = '" + id + "';";
+public class LoginTools {
+	public static int login(String id, String password) throws PasswordErrorException, IDNotExistException {
+		String sql = "select password,role from user where id = '" + id + "';";
 		try {
 			ResultSet rSet = MySQLConnector.returnConnect(sql);
 			if(rSet.next()) {
@@ -36,9 +33,5 @@ public class LoginTools implements LogIplm{
 			se.printStackTrace();
 			return 0;
 		}
-		
 	}
-	
-	
-
 }

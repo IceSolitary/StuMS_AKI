@@ -4,7 +4,7 @@ public class PasswordErrorException extends Exception {
 	private static final long serialVersionUID = 1L;
 	
 	public PasswordErrorException() {
-		super("ÃÜÂë´íÎó£¡");
+		super("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 	}
 	
 	public PasswordErrorException(String s) {
