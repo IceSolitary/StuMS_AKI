@@ -34,8 +34,8 @@ public class NTeaTools implements LogIplm {
 			if (rsSet.next()) {
 				String ssid = rsSet.getString("tid");
 				stuInfo.put("tid", ssid);
-				String tname = rsSet.getString("tname");
-				stuInfo.put("tname", tname);
+				String name = rsSet.getString("tname");
+				stuInfo.put("name", name);
 				int sex = rsSet.getInt("sex");
 				String sexString;
 				if(sex==1){

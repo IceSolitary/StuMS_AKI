@@ -31,26 +31,26 @@ public interface LogIplm {
 	 */
 
 	static void addLog(LogIplm.TYPE type, String logContent) {
-		try {
-
-			String fileName = "./log/MyMSlog";
-			BufferedWriter out = new BufferedWriter(new FileWriter(fileName,true));
-			out.write("-----------" + type.toString() + "----------");
-			out.newLine();
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
-			out.write(df.format(new Date()));
-			out.newLine();
-			out.write(logContent);
-			out.newLine();
-			out.write("-----------END----------");
-			out.newLine();
-			out.flush();
-			out.close();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-
-		}
+//		try {
+//
+//			String fileName = "./log/MyMSlog";
+//			BufferedWriter out = new BufferedWriter(new FileWriter(fileName,true));
+//			out.write("-----------" + type.toString() + "----------");
+//			out.newLine();
+//			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
+//			out.write(df.format(new Date()));
+//			out.newLine();
+//			out.write(logContent);
+//			out.newLine();
+//			out.write("-----------END----------");
+//			out.newLine();
+//			out.flush();
+//			out.close();
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//
+//		}
 	}
 
 	static String readLog() {

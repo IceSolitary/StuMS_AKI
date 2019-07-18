@@ -181,7 +181,7 @@ public class StudentPanel extends JPanel {
 			
 	        String[] name={"课程号", "课程名", "教工号", "教师名", "成绩"};
 	        
-	        this.scModel = new NotEditableTableModel(tableData, name);
+	        this.scModel = new NotEditableTableModel(tableData, name, -1);
 	        this.scTable.setModel(this.scModel);
 	        this.scTable.setRowSorter(new TableRowSorter<TableModel>(this.scModel));
 		}
