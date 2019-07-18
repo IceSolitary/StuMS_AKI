@@ -34,6 +34,7 @@ public class MainFrame extends JFrame {
 	public LoginPanel loginPanel = new LoginPanel(this);
 	public StudentPanel studentPanel = new StudentPanel(this);
 	public TeacherPanel teacherPanel = new TeacherPanel(this);
+	public StudentConsularPanel studentConsularPanel = new StudentConsularPanel(this);
 	
 	/**
 	 * Create the frame.
@@ -65,6 +66,7 @@ public class MainFrame extends JFrame {
 		this.cardPanel.add(this.loginPanel, "LoginView");
 		this.cardPanel.add(this.studentPanel, "StudentView");
 		this.cardPanel.add(this.teacherPanel, "TeacherView");
+		this.cardPanel.add(this.studentConsularPanel, "StudentConsularView");
 		
 		this.showLoginView();
 		
@@ -109,10 +111,19 @@ public class MainFrame extends JFrame {
 	
 	public void showTeacherView() {
 		this.northVS.setPreferredSize(new Dimension(5, 10));
-		this.setTitle("学生信息成绩管理系统  --  教师  --" + this.teacherPanel.getId());
+		this.setTitle("学生信息成绩管理系统  --  教师  --  " + this.teacherPanel.getId());
 		this.cardLayout.show(cardPanel, "TeacherView");
 		this.teacherPanel.initData();
 		this.teacherPanel.tabbedPane.setSelectedIndex(0);
-		this.setSize(802, 600);
+		this.setSize(801, 600);
+	}
+	
+	public void showStudentConsularView() {
+		this.northVS.setPreferredSize(new Dimension(5, 10));
+		this.setTitle("学生信息成绩管理系统  --  教务处老师  --  " + this.studentConsularPanel.getId());
+		this.cardLayout.show(cardPanel, "StudentConsularView");
+		this.studentConsularPanel.initData();
+		this.studentConsularPanel.tabbedPane.setSelectedIndex(0);
+		this.setSize(801, 600);
 	}
 }

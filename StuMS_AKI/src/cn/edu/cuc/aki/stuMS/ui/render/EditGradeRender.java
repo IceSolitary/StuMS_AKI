@@ -1,4 +1,4 @@
-package cn.edu.cuc.aki.stuMS.ui;
+package cn.edu.cuc.aki.stuMS.ui.render;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -21,6 +21,7 @@ import javax.swing.table.TableCellRenderer;
 
 import cn.edu.cuc.aki.stuMS.exception.CourseNotMatchStudentException;
 import cn.edu.cuc.aki.stuMS.tools.NTeaTools;
+import cn.edu.cuc.aki.stuMS.ui.MainFrame;
 
 public class EditGradeRender extends AbstractCellEditor implements TableCellRenderer, ActionListener, TableCellEditor {
 	private static final long serialVersionUID = 1L;
@@ -60,17 +61,6 @@ public class EditGradeRender extends AbstractCellEditor implements TableCellRend
 	}
 }
 
-class TableButton extends JButton {
-	private static final long serialVersionUID = 1L;
-	int row;
-	JTable table;
-	
-	public TableButton(String text, JTable table) {
-		super(text);
-		this.table = table;
-	}
-}
-
 class EditGradeDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
@@ -105,17 +95,17 @@ class EditGradeDialog extends JDialog {
 							throw new NumberFormatException();
 						}
 						
-						// TODO:edit grade
 						try {
 							NTeaTools.alterStuGrade(tid, sid, kkid, inputGrade);
 							rootFrame.teacherPanel.initData();
+							JOptionPane.showMessageDialog(dialog, "修改成绩成功", "提示", JOptionPane.PLAIN_MESSAGE);
 						} catch (CourseNotMatchStudentException e1) {
 							e1.printStackTrace();
 						}
 						
 						dialog.dispose();
 					} catch (NumberFormatException e2) {
-						JOptionPane.showMessageDialog(dialog, "����ĳɼ���ʽ����ȷ��", "�޸�ʧ��", 0);
+						JOptionPane.showMessageDialog(dialog, "输入的成绩格式不合法！", "修改成绩失败", 0);
 					}
 				}
 			});

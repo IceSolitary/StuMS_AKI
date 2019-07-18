@@ -1,4 +1,4 @@
-package cn.edu.cuc.aki.stuMS.ui;
+package cn.edu.cuc.aki.stuMS.ui.render;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -21,17 +21,18 @@ import javax.swing.table.TableCellRenderer;
 
 import cn.edu.cuc.aki.stuMS.exception.CourseNotMatchStudentException;
 import cn.edu.cuc.aki.stuMS.tools.NTeaTools;
+import cn.edu.cuc.aki.stuMS.ui.MainFrame;
 
-public class EditGradeRender extends AbstractCellEditor implements TableCellRenderer, ActionListener, TableCellEditor {
+public class RemoveCTRender extends AbstractCellEditor implements TableCellRenderer, ActionListener, TableCellEditor {
 	private static final long serialVersionUID = 1L;
 	private TableButton button = null;
 	
 	private MainFrame parentFrame;
 
-	public EditGradeRender(MainFrame parentFrame) {
+	public RemoveCTRender(MainFrame parentFrame) {
 		this.parentFrame = parentFrame;
 		
-		button = new TableButton("EDIT!", parentFrame.teacherPanel.scTable);
+		button = new TableButton("REMOVE!", parentFrame.studentConsularPanel.ctTable);
 		button.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 10));
 		button.addActionListener(this);
 	}
@@ -56,27 +57,16 @@ public class EditGradeRender extends AbstractCellEditor implements TableCellRend
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		new EditGradeDialog(this.parentFrame.teacherPanel.getId(), String.valueOf(this.button.table.getValueAt(this.button.row, 0)), String.valueOf(this.button.table.getValueAt(this.button.row, 2)), parentFrame);
+		new RemoveCTDialog(this.parentFrame.studentConsularPanel.getId(), String.valueOf(this.button.table.getValueAt(this.button.row, 0)), String.valueOf(this.button.table.getValueAt(this.button.row, 2)), parentFrame);
 	}
 }
 
-class TableButton extends JButton {
-	private static final long serialVersionUID = 1L;
-	int row;
-	JTable table;
-	
-	public TableButton(String text, JTable table) {
-		super(text);
-		this.table = table;
-	}
-}
-
-class EditGradeDialog extends JDialog {
+class RemoveCTDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
 
-	public EditGradeDialog(String tid, String kkid, String sid, MainFrame rootFrame) {
+	public RemoveCTDialog(String id, String tid, String cid, MainFrame rootFrame) {
 		setTitle("\u4FEE\u6539\u6210\u7EE9");
 		setResizable(false);
 		setBounds(500, 300, 344, 131);
@@ -105,17 +95,17 @@ class EditGradeDialog extends JDialog {
 							throw new NumberFormatException();
 						}
 						
-						// TODO:edit grade
 						try {
 							NTeaTools.alterStuGrade(tid, sid, kkid, inputGrade);
 							rootFrame.teacherPanel.initData();
+							JOptionPane.showMessageDialog(dialog, "锟睫改成硷拷锟缴癸拷", "锟斤拷示", JOptionPane.PLAIN_MESSAGE);
 						} catch (CourseNotMatchStudentException e1) {
 							e1.printStackTrace();
 						}
 						
 						dialog.dispose();
 					} catch (NumberFormatException e2) {
-						JOptionPane.showMessageDialog(dialog, "����ĳɼ���ʽ����ȷ��", "�޸�ʧ��", 0);
+						JOptionPane.showMessageDialog(dialog, "锟斤拷锟斤拷某杉锟斤拷锟绞斤拷锟斤拷锟饺凤拷锟�", "锟睫革拷失锟斤拷", 0);
 					}
 				}
 			});
