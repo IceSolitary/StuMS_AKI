@@ -34,17 +34,12 @@ public class NTeaTools implements LogIplm {
 			if (rsSet.next()) {
 				String ssid = rsSet.getString("tid");
 				stuInfo.put("tid", ssid);
-<<<<<<< HEAD
 				String name = rsSet.getString("tname");
 				stuInfo.put("name", name);
-=======
-				String tname = rsSet.getString("tname");
-				stuInfo.put("tname", tname);
->>>>>>> 176016c8478258f83f288648732a2b68a1ad8344
 				int sex = rsSet.getInt("sex");
 				String sexString;
 				if(sex==1){
-					sexString = "ÄÐ";
+					sexString = "ï¿½ï¿½";
 				}
 				else if(sex==2) {
 					sexString = "Å®";
