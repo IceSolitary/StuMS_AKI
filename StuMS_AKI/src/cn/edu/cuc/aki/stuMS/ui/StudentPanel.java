@@ -3,18 +3,19 @@ package cn.edu.cuc.aki.stuMS.ui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
-
-import com.sun.org.apache.bcel.internal.generic.Select;
-
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.awt.event.ActionEvent;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
 
@@ -25,7 +26,7 @@ public class StudentPanel extends JPanel {
 	private String id = "";
 	
 	// TabbedPanes
-	JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
+	public JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
 	JPanel infoPanel = new JPanel();
 	JPanel scPanel = new JPanel();
 	JPanel settingPanel = new JPanel();
@@ -36,6 +37,11 @@ public class StudentPanel extends JPanel {
 	private JLabel sexLable = new JLabel("");
 	private JLabel ageLable = new JLabel("");
 	private JLabel majorLable = new JLabel("");
+	
+	// scPanel Components
+	private JTable scTable;
+	// scPanel Data
+	TableModel scModel;
 	
 	// settingPanel Components
 	JButton changingPwButton = new JButton("修改密码");
@@ -52,8 +58,6 @@ public class StudentPanel extends JPanel {
 		
 		this.add(this.tabbedPane, BorderLayout.CENTER);
 		this.tabbedPane.add("个人信息", this.infoPanel);
-		infoPanel.setLayout(null);
-		
 		this.tabbedPane.add("查看成绩信息", this.scPanel);
 		this.tabbedPane.add("其他设置", this.settingPanel);
 		
@@ -68,6 +72,11 @@ public class StudentPanel extends JPanel {
 			}
 		});
 		
+		this.initData();
+		
+		this.scTable = new JTable(this.scModel);
+		this.scTable.setRowSorter(new TableRowSorter<TableModel>(this.scModel));
+		
 		this.showComponents();
 	}
 	
@@ -76,6 +85,8 @@ public class StudentPanel extends JPanel {
 	 */
 	private void showComponents() {
 		// infoPanel
+		this.infoPanel.setLayout(null);
+		
 		JLabel lblId = new JLabel("ID");
 		lblId.setBounds(122, 111, 57, 15);
 		infoPanel.add(lblId);
@@ -122,6 +133,10 @@ public class StudentPanel extends JPanel {
 		infoPanel.add(separator_4);
 		// infoPanel END
 		
+		// scPanel
+		this.scPanel.setLayout(new BorderLayout());
+		this.scPanel.add(new JScrollPane(this.scTable), BorderLayout.CENTER);
+		
 		// settingPanel
 		Box settingBox = Box.createVerticalBox();
 		this.settingPanel.add(settingBox);
@@ -146,5 +161,9 @@ public class StudentPanel extends JPanel {
 	
 	public void initData() {
 		// TODO: SC Data
+		String[][] tableData;
+        
+        String[] name={"课程号", "课程名", "教工号", "教师名", "成绩"};
+//        this.scModel = new NotEditableTableModel(tableData, name);
 	}
 }

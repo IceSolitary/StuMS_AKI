@@ -69,6 +69,12 @@ public class ChangingPwDialog extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						ChangingPwDialog dialog = (ChangingPwDialog) SwingUtilities.getWindowAncestor((Component) e.getSource());
+						dialog.dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

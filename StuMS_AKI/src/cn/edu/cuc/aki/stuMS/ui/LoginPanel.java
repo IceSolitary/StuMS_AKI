@@ -187,6 +187,9 @@ public class LoginPanel extends JPanel implements ActionListener {
 				this.parentFrame.studentPanel.setId(inputId);
 				this.parentFrame.showStudentView();
 				break;
+			case 2:
+				this.parentFrame.teacherPanel.setId(inputId);
+				this.parentFrame.showTeacherView();
 			default:
 				break;
 			}

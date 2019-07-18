@@ -33,6 +33,7 @@ public class MainFrame extends JFrame {
 	
 	public LoginPanel loginPanel = new LoginPanel(this);
 	public StudentPanel studentPanel = new StudentPanel(this);
+	public TeacherPanel teacherPanel = new TeacherPanel(this);
 	
 	/**
 	 * Create the frame.
@@ -63,6 +64,7 @@ public class MainFrame extends JFrame {
 		this.cardPanel.setLayout(cardLayout);
 		this.cardPanel.add(this.loginPanel, "LoginView");
 		this.cardPanel.add(this.studentPanel, "StudentView");
+		this.cardPanel.add(this.teacherPanel, "TeacherView");
 		
 		this.showLoginView();
 		
@@ -101,6 +103,17 @@ public class MainFrame extends JFrame {
 		this.setTitle("学生信息成绩管理系统  --  学生  --  " + this.studentPanel.getId());
 		this.cardLayout.show(this.cardPanel, "StudentView");
 		this.studentPanel.initData();
+		this.studentPanel.tabbedPane.setSelectedIndex(0);
 		this.setSize(801, 600); // cardLayout 切换时northVS显示不会改变，将宽度改变后才会更新，原因不明qwq PS:直接在构造函数调用这个函数northVS会变化
+	}
+	
+	public void showTeacherView() {
+		this.northVS.setPreferredSize(new Dimension(5, 100));
+		this.setTitle("学生信息成绩管理系统  --  教师" + this.teacherPanel.getId());
+		this.cardLayout.show(cardPanel, "TeacherView");
+		this.teacherPanel.initData();
+		this.teacherPanel.scCourseComboBox.setSelectedIndex(0);
+		this.teacherPanel.scStudentComboBox.setSelectedIndex(0);
+		this.setSize(802, 600);
 	}
 }
