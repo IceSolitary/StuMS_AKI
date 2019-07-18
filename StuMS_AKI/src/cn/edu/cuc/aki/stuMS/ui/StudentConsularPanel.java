@@ -14,6 +14,7 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -24,7 +25,8 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import cn.edu.cuc.aki.stuMS.tools.STeaTools;
-import cn.edu.cuc.aki.stuMS.ui.render.EditGradeRender;
+import cn.edu.cuc.aki.stuMS.ui.render.EditStuInfoRender;
+import cn.edu.cuc.aki.stuMS.ui.render.RemoveCTRender;
 
 public class StudentConsularPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -37,6 +39,7 @@ public class StudentConsularPanel extends JPanel {
 	JPanel infoPanel = new JPanel();
 	JPanel gradePanel = new JPanel();
 	JPanel ctPanel = new JPanel();
+	JPanel stuPanel = new JPanel();
 	JPanel settingPanel = new JPanel();
 	
 	// infoPanel Components
@@ -55,10 +58,21 @@ public class StudentConsularPanel extends JPanel {
 	public ArrayList<String[]> scData;
 	
 	// ctPanel Components
+	JComboBox<String> ctCourseComboBox = new JComboBox<String>();
+	JComboBox<String> ctNTeacherComboBox = new JComboBox<String>();
 	public JTable ctTable;
+	private JButton addCTButton = new JButton("开设新的课程");
 	// ctPanel Data
 	TableModel ctModel;
 	ArrayList<String[]> ctData;
+	ArrayList<String[]> allCTCourses = STeaTools.selectAllCourse();
+	ArrayList<String[]> allNTeachers = STeaTools.selectAllNTeachers();
+	
+	// stuPanel Components
+	public JTable stuTable;
+	// stuPanel Data
+	TableModel stuModel;
+	ArrayList<String[]> stuData;
 	
 	// settingPanel Components
 	JButton changingPwButton = new JButton("修改密码");
@@ -77,6 +91,7 @@ public class StudentConsularPanel extends JPanel {
 		this.tabbedPane.add("个人信息", this.infoPanel);
 		this.tabbedPane.add("查看学生成绩", this.gradePanel);
 		this.tabbedPane.add("查看/修改学院开课", this.ctPanel);
+		this.tabbedPane.add("查看/修改学生信息", this.stuPanel);
 		this.tabbedPane.add("其他设置", this.settingPanel);
 		
 		this.logOutButton.addActionListener(new ActionListener() {
@@ -90,9 +105,23 @@ public class StudentConsularPanel extends JPanel {
 				System.out.println(parentFrame.studentConsularPanel.getId());
 			}
 		});
+		this.addCTButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int selectedCIndex = parentFrame.studentConsularPanel.ctCourseComboBox.getSelectedIndex();
+				int selectedTIndex = parentFrame.studentConsularPanel.ctNTeacherComboBox.getSelectedIndex();
+				
+				if (JOptionPane.showOptionDialog(SwingUtilities.getWindowAncestor((Component) e.getSource()), "确定要添加该课程吗？", "警告", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null) == 0) {
+					STeaTools.addSTCourse(allCTCourses.get(selectedCIndex)[0], allNTeachers.get(selectedTIndex)[0], id);
+					parentFrame.studentConsularPanel.initData();
+					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor((Component) e.getSource()), "添加成功！", "提示", JOptionPane.PLAIN_MESSAGE);
+				}
+			}
+		});
 		
 		this.ctTable = new JTable(this.ctModel);
 		this.scTable = new JTable(this.scModel);
+		this.stuTable = new JTable(this.stuModel);
 		
 		this.initData();
 		
@@ -209,6 +238,7 @@ public class StudentConsularPanel extends JPanel {
 
 		this.ctTable.setRowSorter(new TableRowSorter<TableModel>(this.ctModel));
 		this.scTable.setRowSorter(new TableRowSorter<TableModel>(this.scModel));
+		this.stuTable.setRowSorter(new TableRowSorter<TableModel>(this.stuModel));
 		
 		this.showComponents();
 	}
@@ -283,7 +313,21 @@ public class StudentConsularPanel extends JPanel {
 		// ctPanel
 		this.ctPanel.setLayout(new BorderLayout());
 		this.ctPanel.add(new JScrollPane(this.ctTable), BorderLayout.CENTER);
+		Box addCTBox = Box.createHorizontalBox();
+		this.ctPanel.add(addCTBox, BorderLayout.SOUTH);
+		addCTBox.add(Box.createHorizontalStrut(10));
+		addCTBox.add(this.ctCourseComboBox);
+		addCTBox.add(Box.createHorizontalStrut(30));
+		addCTBox.add(this.ctNTeacherComboBox);
+		addCTBox.add(Box.createHorizontalStrut(50));
+		addCTBox.add(this.addCTButton);
+		addCTBox.add(Box.createHorizontalStrut(10));
 		// ctPanel END
+		
+		// stuPanel
+		this.stuPanel.setLayout(new BorderLayout());
+		this.stuPanel.add(new JScrollPane(this.stuTable), BorderLayout.CENTER);
+		// stuPanel END
 		
 		// settingPanel
 		Box settingBox = Box.createVerticalBox();
@@ -316,9 +360,10 @@ public class StudentConsularPanel extends JPanel {
 			this.ageLable.setText(teaInfoMap.get("age"));
 			this.majorLable.setText(teaInfoMap.get("major"));
 			
-			// set scData & ctData
+			// set scData & ctData & stuData
 			this.scData = STeaTools.searchStuGrade(this.id);
-			// TODO: set ctData
+			this.ctData = STeaTools.searchCT(this.id);
+			this.stuData = STeaTools.searchStuInfo(this.id);
 			
 			// set scCourseComboBox & scStudentCombox Data
 			ArrayList<String> allCourses = new ArrayList<String>();
@@ -345,7 +390,19 @@ public class StudentConsularPanel extends JPanel {
 			for (String string : allStudents) {
 				this.scStudentComboBox.addItem(string);
 			}
-	        
+			// set scCourseComboBox & scStudentCombox Data END
+			
+			// set ctCourseComboBox & ctStudentCombox Data
+			
+			for (String[] tuple : this.allCTCourses) {
+				this.ctCourseComboBox.addItem(tuple[1]);
+			}
+			for (String[] tuple : this.allNTeachers) {
+				this.ctNTeacherComboBox.addItem(tuple[1]);
+			}
+			// set ctCourseComboBox & ctStudentCombox Data END
+			
+	        // set scTable & ctTable
 	        String[] scName = {"课程号", "课程名", "学生号", "学生名", "成绩"};
 	        int scRowCount = this.scData.size();
 	        String[][] scData = new String[scRowCount][5];
@@ -356,17 +413,29 @@ public class StudentConsularPanel extends JPanel {
 	        this.scTable.setModel(this.scModel);
 	        this.scTable.setRowSorter(new TableRowSorter<TableModel>(this.scModel));
 	        
-	        String[] ctNames = {"课程号", "课程名", "删除此课程"};
+	        String[] ctNames = {"课程号", "课程名", "授课教师教工号", "授课教师名", "删除此课程"};
 	        int ctRowCount = this.ctData.size();
-	        String[][] ctData = new String[ctRowCount][2];
+	        String[][] ctData = new String[ctRowCount][4];
 	        for (int i = 0; i < this.ctData.size(); i++) {
 				ctData[i] = this.ctData.get(i);
 			}
-	        this.ctModel = new NotEditableTableModel(ctData, ctNames, 2);
+	        this.ctModel = new NotEditableTableModel(ctData, ctNames, 4);
 	        this.ctTable.setModel(this.ctModel);
 	        this.ctTable.setRowSorter(new TableRowSorter<TableModel>(this.ctModel));
-	        this.scTable.getColumnModel().getColumn(5).setCellEditor(new EditGradeRender(this.parentFrame));
-	        this.scTable.getColumnModel().getColumn(5).setCellRenderer(new EditGradeRender(this.parentFrame));
+	        this.ctTable.getColumnModel().getColumn(4).setCellEditor(new RemoveCTRender(this.parentFrame));
+	        this.ctTable.getColumnModel().getColumn(4).setCellRenderer(new RemoveCTRender(this.parentFrame));
+	        
+	        String[] stuNames = {"学号", "学生名", "性别", "年龄", "专业", "修改学生信息"};
+	        int stuRowCount = this.stuData.size();
+	        String[][] stuData = new String[stuRowCount][5];
+	        for (int i = 0; i < this.stuData.size(); i++) {
+				stuData[i] = this.stuData.get(i);
+			}
+	        this.stuModel = new NotEditableTableModel(stuData, stuNames, 5);
+	        this.stuTable.setModel(this.stuModel);
+	        this.stuTable.setRowSorter(new TableRowSorter<TableModel>(this.stuModel));
+	        this.stuTable.getColumnModel().getColumn(5).setCellEditor(new EditStuInfoRender(this.parentFrame));
+	        this.stuTable.getColumnModel().getColumn(5).setCellRenderer(new EditStuInfoRender(this.parentFrame));
 		}
 	}
 }

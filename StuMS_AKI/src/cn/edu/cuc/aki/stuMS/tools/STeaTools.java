@@ -78,18 +78,8 @@ public class STeaTools {
 	 * @param cid  课程的id
 	 * @param tid  老师的id
 	 * @param oid  操作者的id
-	 * @throws TeacherNotExistException 该老师不存在的异常
-	 * @throws CourseNotExistException  该课程不存在的异常
 	 */
-	public static void addSTCourse(String cid, String tid,String oid)
-			throws TeacherNotExistException, CourseNotExistException {
-		if (!VerifyTools.isTeacherExist(tid)) {
-			throw new TeacherNotExistException();
-		}
-
-		if (!VerifyTools.isCourseExist(cid)) {
-			throw new CourseNotExistException();
-		}
+	public static void addSTCourse(String cid, String tid,String oid) {
 		String kkid;
 		String sqlkkidString = "select max(convert(kkid,signed)) as maxKkid from ct";
 		try {
@@ -121,28 +111,67 @@ public class STeaTools {
 			MySQLConnector.disconnect();
 		}
 	}
-
+	
 	/**
-	 * 删除相应老师的课
-	 * @param tid  老师的id
-	 * @param cid  课程的id
-	 * @param oid  操作者的id
-	 * @throws CourseNotMatchTeacherException 检测相应老师是否开了此课
+	 * 获得所有Course的id 和 name
+	 * 
+	 * @return ArrayList<String[]>， String[0]为cid, String[1]为cname
 	 */
-	public static void deleteTCourse(String tid, String cid, String oid) throws CourseNotMatchTeacherException {
-
-		if (!VerifyTools.isCourseMatchTeacher(cid, tid)) {
-			throw new CourseNotMatchTeacherException();
+	public static ArrayList<String[]> selectAllCourse() {
+		String sql = "select * from course;";
+		ArrayList<String[]> data = new ArrayList<String[]>();
+		try {
+			ResultSet rsSet = MySQLConnector.returnConnect(sql);
+			while(rsSet.next()) {
+				String[] tuple = {rsSet.getString(1), rsSet.getString(2)};
+				data.add(tuple);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			// 完成后关闭
+			MySQLConnector.disconnect();
 		}
-
-		String sql = "delete from ct where cid = '" + cid + "' and tid = '"+ tid +"';";
+		return data;
+	}
+	
+	/**
+	 * 获得所有nteacher的id 和 name
+	 * 
+	 * @return ArrayList<String[]>， String[0]为tid, String[1]为tname
+	 */
+	public static ArrayList<String[]> selectAllNTeachers() {
+		String sql = "select tid, tname from nteacher;";
+		ArrayList<String[]> data = new ArrayList<String[]>();
+		try {
+			ResultSet rsSet = MySQLConnector.returnConnect(sql);
+			while(rsSet.next()) {
+				String[] tuple = {rsSet.getString(1), rsSet.getString(2)};
+				data.add(tuple);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			// 完成后关闭
+			MySQLConnector.disconnect();
+		}
+		return data;
+	}
+	
+	/**
+	 * 根据kkid删除开课
+	 * @param kkid  开课课程的id
+	 * @param oid  操作者的id
+	 */
+	public static void deleteTCourse(String kkid, String oid) {
+		String sql = "delete from ct where kkid = '" + kkid + "';";
 		try {
 			MySQLConnector.connect(sql);
-			String logContent = "id : " + oid + " role:ST \nUser delete course,whose tid= "+ tid +", cid = "+cid+".";
+			String logContent = "id : " + oid + " role:ST \nUser delete course,whose kkid= "+ kkid + ".";
 			LogIplm.addLog(LogIplm.TYPE.INFORMATION, logContent);
 		} catch (Exception e) {
 			System.out.println(e);
-			String logContent = "id : " + oid + " role:ST \nUser delete course,whose tid= "+ tid +", cid = "+cid+", but error.";
+			String logContent = "id : " + oid + " role:ST \nUser delete course,whose kkid= "+ kkid + ", but error.";
 			LogIplm.addLog(LogIplm.TYPE.ERROR, logContent);
 		} finally {
 			// 完成后关闭
@@ -242,15 +271,16 @@ public class STeaTools {
 	 */
 	public static ArrayList<String[]> searchCT(String oid) {
 		
-		String sql = "select * from ct ";
+		String sql = "select kkid, cname, ct.tid as tid, tname from ct, course, nteacher where ct.cid = course.cid and ct.tid = nteacher.tid";
 		try {
 			ResultSet rsSet = MySQLConnector.returnConnect(sql);
 			ArrayList<String[]> data = new ArrayList<String[]>();
 			while(rsSet.next()) {
 				String kkid = rsSet.getString("kkid");
-				String cid = rsSet.getString("cid");
+				String cname = rsSet.getString("cname");
 				String tid = rsSet.getString("tid");
-				String[] info = {kkid , cid, tid};
+				String tname = rsSet.getString("tname");
+				String[] info = {kkid , cname, tid, tname};
 				data.add(info);
 			}
 			String logContent = "id : " + oid + " role:ST \nUser inquire all personal information of all students.";
@@ -281,8 +311,8 @@ public class STeaTools {
 		if (!VerifyTools.isStudentExist(sid)) {
 			throw new StudentNotExistException();
 		}
-		String sql = "upadate stu set name = '" + name + "',sex = " + sex + ",age = " + age + ",major='" + major
-				+ "', where sid = '" + sid + "';";
+		String sql = "update stu set name = '" + name + "',sex = " + sex + ",age = " + age + ",major='" + major
+				+ "' where sid = '" + sid + "';";
 		try {
 			MySQLConnector.connect(sql);
 			String logContent = "id : " + oid + " role:ST \nUser alter student information whose sid =" + sid + ".";
