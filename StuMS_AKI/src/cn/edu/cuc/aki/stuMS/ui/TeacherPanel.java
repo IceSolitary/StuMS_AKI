@@ -144,7 +144,7 @@ public class TeacherPanel extends JPanel {
 			        for (int i = 0; i < cscRowCount; i++) {
 						cscData[i] = currentScDataTemp.get(i);
 					}
-					parentFrame.teacherPanel.scModel = new NotEditableTableModel(cscData, scName);
+					parentFrame.teacherPanel.scModel = new NotEditableTableModel(cscData, scName, 5);
 					parentFrame.teacherPanel.scTable.setModel(parentFrame.teacherPanel.scModel);
 					parentFrame.teacherPanel.scTable.setRowSorter(new TableRowSorter<TableModel>(parentFrame.teacherPanel.scModel));
 					parentFrame.teacherPanel.scTable.getColumnModel().getColumn(5).setCellEditor(new EditGradeRender(parentFrame));
@@ -201,7 +201,7 @@ public class TeacherPanel extends JPanel {
 			        for (int i = 0; i < cscRowCount; i++) {
 						cscData[i] = currentScDataTemp.get(i);
 					}
-					parentFrame.teacherPanel.scModel = new NotEditableTableModel(cscData, scName);
+					parentFrame.teacherPanel.scModel = new NotEditableTableModel(cscData, scName, 5);
 					parentFrame.teacherPanel.scTable.setModel(parentFrame.teacherPanel.scModel);
 					parentFrame.teacherPanel.scTable.setRowSorter(new TableRowSorter<TableModel>(parentFrame.teacherPanel.scModel));
 					parentFrame.teacherPanel.scTable.getColumnModel().getColumn(5).setCellEditor(new EditGradeRender(parentFrame));
@@ -355,7 +355,7 @@ public class TeacherPanel extends JPanel {
 	        for (int i = 0; i < this.ctData.size(); i++) {
 				ctData[i] = this.ctData.get(i);
 			}
-	        this.ctModel = new NotEditableTableModel(ctData, ctNames);
+	        this.ctModel = new NotEditableTableModel(ctData, ctNames, 5);
 	        this.ctTable.setModel(this.ctModel);
 	        this.ctTable.setRowSorter(new TableRowSorter<TableModel>(this.ctModel));
 	        
@@ -365,7 +365,7 @@ public class TeacherPanel extends JPanel {
 	        for (int i = 0; i < this.scData.size(); i++) {
 				scData[i] = this.scData.get(i);
 			}
-	        this.scModel = new NotEditableTableModel(scData, scName);
+	        this.scModel = new NotEditableTableModel(scData, scName, 5);
 	        this.scTable.setModel(this.scModel);
 	        this.scTable.setRowSorter(new TableRowSorter<TableModel>(this.scModel));
 	        this.scTable.getColumnModel().getColumn(5).setCellEditor(new EditGradeRender(this.parentFrame));
