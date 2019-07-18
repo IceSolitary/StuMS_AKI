@@ -81,7 +81,7 @@ public class STeaTools {
 	 * @throws TeacherNotExistException 该老师不存在的异常
 	 * @throws CourseNotExistException  该课程不存在的异常
 	 */
-	public static void addSTCourse(String kkid, String cid, String tid,String oid)
+	public static void addSTCourse(String cid, String tid,String oid)
 			throws TeacherNotExistException, CourseNotExistException {
 		if (!VerifyTools.isTeacherExist(tid)) {
 			throw new TeacherNotExistException();
@@ -89,6 +89,22 @@ public class STeaTools {
 
 		if (!VerifyTools.isCourseExist(cid)) {
 			throw new CourseNotExistException();
+		}
+		String kkid;
+		String sqlkkidString = "select max(convert(kkid,signed)) as maxKkid from ct";
+		try {
+			ResultSet rsSet = MySQLConnector.returnConnect(sqlkkidString);
+			if(rsSet.next()) {
+				kkid = Integer.toString(rsSet.getInt("maxKkid") + 1);
+			}else {
+				kkid = "0";
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+			kkid = "0";
+		} finally {
+			// 完成后关闭
+			MySQLConnector.disconnect();
 		}
 
 		String sql = "insert into ct (kkid,cid,tid) values('" + kkid + "','" + cid + "','" + tid + "');";
@@ -166,6 +182,82 @@ public class STeaTools {
 			return data;
 		} catch (SQLException se) {
 			String logContent = "id : " + oid + " role:ST \nUser inquire all grades information of all students, but error.";
+			LogIplm.addLog(LogIplm.TYPE.ERROR, logContent);
+			System.out.println(se);
+			return null;
+		} finally {
+			// 完成后关闭
+			MySQLConnector.disconnect();
+		}
+	}
+	
+	/**
+	 * 查询所有学生信息
+	 * @param oid  操作者的id
+	 * @return
+	 */
+	public static ArrayList<String[]> searchStuInfo(String oid) {
+		
+		String sql = "select * from stu ";
+		try {
+			ResultSet rsSet = MySQLConnector.returnConnect(sql);
+			ArrayList<String[]> data = new ArrayList<String[]>();
+			while(rsSet.next()) {
+				String sid = rsSet.getString("sid");
+				String name = rsSet.getString("name");
+				int sex = rsSet.getInt("sex");
+				String sexString;
+				if(sex==1){
+					sexString = "男";
+				}
+				else if(sex==2) {
+					sexString = "女";
+				}
+				else {
+					sexString = "未知";
+				}
+				String age = rsSet.getString("age");
+				String major = rsSet.getString("major");
+				String[] info = {sid , name, sexString, age, major};
+				data.add(info);
+			}
+			String logContent = "id : " + oid + " role:ST \nUser inquire all personal information of all students.";
+			LogIplm.addLog(LogIplm.TYPE.INFORMATION, logContent);
+			return data;
+		} catch (SQLException se) {
+			String logContent = "id : " + oid + " role:ST \nUser inquire all personal information of all students, but error.";
+			LogIplm.addLog(LogIplm.TYPE.ERROR, logContent);
+			System.out.println(se);
+			return null;
+		} finally {
+			// 完成后关闭
+			MySQLConnector.disconnect();
+		}
+	}
+	
+	/**
+	 * 查询所有开课信息
+	 * @param oid  操作者的id
+	 * @return
+	 */
+	public static ArrayList<String[]> searchCT(String oid) {
+		
+		String sql = "select * from ct ";
+		try {
+			ResultSet rsSet = MySQLConnector.returnConnect(sql);
+			ArrayList<String[]> data = new ArrayList<String[]>();
+			while(rsSet.next()) {
+				String kkid = rsSet.getString("kkid");
+				String cid = rsSet.getString("cid");
+				String tid = rsSet.getString("tid");
+				String[] info = {kkid , cid, tid};
+				data.add(info);
+			}
+			String logContent = "id : " + oid + " role:ST \nUser inquire all personal information of all students.";
+			LogIplm.addLog(LogIplm.TYPE.INFORMATION, logContent);
+			return data;
+		} catch (SQLException se) {
+			String logContent = "id : " + oid + " role:ST \nUser inquire all personal information of all students, but error.";
 			LogIplm.addLog(LogIplm.TYPE.ERROR, logContent);
 			System.out.println(se);
 			return null;
