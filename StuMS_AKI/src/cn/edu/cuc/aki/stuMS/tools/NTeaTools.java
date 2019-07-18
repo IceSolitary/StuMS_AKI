@@ -138,60 +138,11 @@ public class NTeaTools implements LogIplm {
 	 * @param grade  �޸ĺ���³ɼ�
 	 * @throws CourseNotMatchStudentException
 	 */
-<<<<<<< HEAD
-//	public static void alterStuGrade(String tid, String sid, String kkid, int grade)
-//			throws CourseNotMatchStudentException {
-//		if (!VerifyTools.isCourseMatchStudent(cid, sid)) {
-//			throw new CourseNotMatchStudentException();
-//		}
-//		String sql = "upadate course set grade = " + grade + " where cid = '" + cid + "'and sid = '" + sid + "';";
-//		try {
-//			MySQLConnector.connect(sql);
-//
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//
-//			System.out.println(e);
-//		} finally {
-//			// ��ɺ�ر�
-//			MySQLConnector.disconnect();
-//		}
-//	}
-
-	public static void addTCourse(String tid, String cid, String cname) throws TeacherNotExistException {
-		if (!VerifyTools.isTeacherExist(tid)) {
-			throw new TeacherNotExistException();
-		}
-
-		String sql = "insert into course (cid,cname,tid) values('" + cid + "','" + cname + "','" + tid + "');";
-		try {
-			MySQLConnector.connect(sql);
-			String logContent = "id:" + cid + " �û����ʦ�γ̱�������˿γ̺�Ϊ" + cid + "�γ���Ϊ��" + cname + "��ʦidΪ��";
-			LogIplm.addLog(TYPE.INFORMATION, logContent);
-		} catch (Exception e) {
-			System.out.println(e);
-		} finally {
-			// ��ɺ�ر�
-			MySQLConnector.disconnect();
-		}
-
-	}
-
-	// ɾ����Ӧ��ʦ�Ŀγ�
-	public static void deleteTCourse(String tid, String cid) throws CourseNotMatchTeacherException {
-
-		if (!VerifyTools.isCourseMatchTeacher(cid, tid)) {
-			throw new CourseNotMatchTeacherException();
-		}
-
-		String sql = "delete from course where cid = '" + cid + "';";
-=======
 	public static void alterStuGrade(String tid, String sid, String kkid, int grade) throws CourseNotMatchStudentException {
 		if (!VerifyTools.isCourseMatchStudent(kkid,sid)) {
 			throw new CourseNotMatchStudentException();
 		}
 		String sql = "upadate course set grade = " + grade + " where kkid = '" + kkid + "'and sid = '" + sid + "';";
->>>>>>> fdad9f7aa72079b4baec5fbdc3af3c26bd340a26
 		try {
 			MySQLConnector.connect(sql);
 
