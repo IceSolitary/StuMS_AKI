@@ -33,8 +33,8 @@ public class NTeaTools implements LogIplm {
 			Map<String, String> stuInfo = new HashMap<String, String>();
 			if (rsSet.next()) {
 				String ssid = rsSet.getString("tid");
-				stuInfo.put("sid", ssid);
-				String name = rsSet.getString("name");
+				stuInfo.put("tid", ssid);
+				String name = rsSet.getString("tname");
 				stuInfo.put("name", name);
 				int sex = rsSet.getInt("sex");
 				String sexString = Integer.toString(sex);
@@ -113,7 +113,7 @@ public class NTeaTools implements LogIplm {
 				String kkid = rsSet.getString("kkid");
 				String cname = rsSet.getString("cname");
 				String sid = rsSet.getString("sid");
-				String sname = rsSet.getString("sname");
+				String sname = rsSet.getString("name");
 				String grade = rsSet.getString("grade");
 				String[] info = { kkid, cname, sid, sname, grade };
 				data.add(info);
