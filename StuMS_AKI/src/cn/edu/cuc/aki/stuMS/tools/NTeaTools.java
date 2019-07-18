@@ -17,14 +17,14 @@ import cn.edu.cuc.aki.stuMS.tools.log.LogIplm;
 public class NTeaTools implements LogIplm {
 
 	/**
-	 * ��ͨ��ʦ����
+	 * 锟斤拷通锟斤拷师锟斤拷锟斤拷
 	 */
 
 	/**
-	 * ��ȡ�Լ�����Ϣ
+	 * 锟斤拷取锟皆硷拷锟斤拷锟斤拷息
 	 * 
-	 * @param tid ��ʦid
-	 * @return �ַ�������Ϣ�ֵ�
+	 * @param tid 锟斤拷师id
+	 * @return 锟街凤拷锟斤拷锟斤拷锟斤拷息锟街碉拷
 	 */
 	public static Map<String, String> selectNTInfo(String tid) {
 		String sql = "select * from nteacher where tid = '" + tid + "';";
@@ -39,13 +39,13 @@ public class NTeaTools implements LogIplm {
 				int sex = rsSet.getInt("sex");
 				String sexString;
 				if(sex==1){
-					sexString = "��";
+					sexString = "男";
 				}
 				else if(sex==2) {
-					sexString = "Ů";
+					sexString = "女";
 				}
 				else {
-					sexString = "δ֪";
+					sexString = "未知";
 				}
 				stuInfo.put("sex", sexString);
 				int age = rsSet.getInt("age");
@@ -68,16 +68,16 @@ public class NTeaTools implements LogIplm {
 			System.out.println(se);
 			return null;
 		} finally {
-			// ��ɺ�ر�
+			// 锟斤拷珊锟截憋拷
 			MySQLConnector.disconnect();
 		}
 	}
 
 	/**
-	 * ��ѯ�Լ��Ŀγ�
+	 * 锟斤拷询锟皆硷拷锟侥课筹拷
 	 * 
-	 * @param tid ��ʦ�Լ���id
-	 * @return �γ���Ϣ�б�
+	 * @param tid 锟斤拷师锟皆硷拷锟斤拷id
+	 * @return 锟轿筹拷锟斤拷息锟叫憋拷
 	 */
 	public static ArrayList<String[]> selectTCourse(String tid) {
 
@@ -101,16 +101,16 @@ public class NTeaTools implements LogIplm {
 			System.out.println(se);
 			return null;
 		} finally {
-			// ��ɺ�ر�
+			// 锟斤拷珊锟截憋拷
 			MySQLConnector.disconnect();
 		}
 	}
 
 	/**
-	 * ��ѯ�Լ�����ѧ���ĳɼ�
+	 * 锟斤拷询锟皆硷拷锟斤拷锟斤拷学锟斤拷锟侥成硷拷
 	 * 
-	 * @param tid ��ʦ�Լ���id
-	 * @return ����ѧ���ĳɼ���Ϣ�б�
+	 * @param tid 锟斤拷师锟皆硷拷锟斤拷id
+	 * @return 锟斤拷锟斤拷学锟斤拷锟侥成硷拷锟斤拷息锟叫憋拷
 	 */
 	public static ArrayList<String[]> selectStuGrade(String tid) {
 		String sql = "select sc.kkid, course.cname, stu.sid, stu.name, sc.grade \r\n" + "from ct, sc ,stu,course \r\n"
@@ -126,6 +126,9 @@ public class NTeaTools implements LogIplm {
 				String sid = rsSet.getString("sid");
 				String sname = rsSet.getString("name");
 				String grade = rsSet.getString("grade");
+				if(grade=="-1") {
+					grade=null;
+				}
 				String[] info = { kkid, cname, sid, sname, grade };
 				data.add(info);
 			}
@@ -138,24 +141,24 @@ public class NTeaTools implements LogIplm {
 			LogIplm.addLog(LogIplm.TYPE.ERROR, logContent);
 			return null;
 		} finally {
-			// ��ɺ�ر�
+			// 锟斤拷珊锟截憋拷
 			MySQLConnector.disconnect();
 		}
 	}
 
 	/**
-	 * �޸�ѧ����Ӧ�γ̵ĳɼ�
-	 * @param tid  ������ʦ��id
-	 * @param sid  ѧ��id
-	 * @param kkid  ��Ӧ�γ�id
-	 * @param grade  �޸ĺ���³ɼ�
+	 * 锟睫革拷学锟斤拷锟斤拷应锟轿程的成硷拷
+	 * @param tid  锟斤拷锟斤拷锟斤拷师锟斤拷id
+	 * @param sid  学锟斤拷id
+	 * @param kkid  锟斤拷应锟轿筹拷id
+	 * @param grade  锟睫改猴拷锟斤拷鲁杉锟�
 	 * @throws CourseNotMatchStudentException
 	 */
 	public static void alterStuGrade(String tid, String sid, String kkid, int grade) throws CourseNotMatchStudentException {
 		if (!VerifyTools.isCourseMatchStudent(kkid,sid)) {
 			throw new CourseNotMatchStudentException();
 		}
-		String sql = "upadate sc set grade = " + grade + " where kkid = '" + kkid + "'and sid = '" + sid + "';";
+		String sql = "update sc set grade = " + grade + " where kkid = '" + kkid + "'and sid = '" + sid + "';";
 		try {
 			MySQLConnector.connect(sql);
 			String logContent = "id : " + tid + " role:NT \nUser alter student whose sid =" + sid + " and courseid = "+ kkid + " alter grade = " + grade +".";
@@ -165,13 +168,13 @@ public class NTeaTools implements LogIplm {
 			LogIplm.addLog(LogIplm.TYPE.ERROR, logContent);
 			System.out.println(e);
 		} finally {
-			// ��ɺ�ر�
+			// 锟斤拷珊锟截憋拷
 			MySQLConnector.disconnect();
 		}
 	}
 
 //
-//	// �޸���Ӧ��ʦ�γ�
+//	// 锟睫革拷锟斤拷应锟斤拷师锟轿筹拷
 //	public static void alterTCourse(String cid, String tid, String cname) throws CourseNotMatchTeacherException {
 //		if (!VerifyTools.isCourseMatchTeacher(cid, tid)) {
 //			throw new CourseNotMatchTeacherException();
@@ -182,12 +185,12 @@ public class NTeaTools implements LogIplm {
 //		} catch (Exception e) {
 //			System.out.println(e);
 //		} finally {
-//			// ��ɺ�ر�
+//			// 锟斤拷珊锟截憋拷
 //			MySQLConnector.disconnect();
 //		}
 //	}
 //
-//	// ��ѯ��Ӧ��ʦ���ڿ�
+//	// 锟斤拷询锟斤拷应锟斤拷师锟斤拷锟节匡拷
 //	public static ArrayList[] selectTCourse(String tid) throws TeacherNotExistException {
 //		if(! VerifyTools.isTeacherExist(tid)) {
 //			throw new TeacherNotExistException();
@@ -209,12 +212,12 @@ public class NTeaTools implements LogIplm {
 //			System.out.println(se);
 //			return null;
 //		} finally {
-//			// ��ɺ�ر�
+//			// 锟斤拷珊锟截憋拷
 //			MySQLConnector.disconnect();
 //		}
 //	}
 //
-//	// ����ѧ����Ӧ�γ̳ɼ�
+//	// 锟斤拷锟斤拷学锟斤拷锟斤拷应锟轿程成硷拷
 //	public static void addStuGrade(String sid, String cid, int grade)
 //			throws StudentNotExistException, CourseNotMatchTeacherException {
 //		if (!VerifyTools.isStudentExist(sid)) {
@@ -230,12 +233,12 @@ public class NTeaTools implements LogIplm {
 //
 //			System.out.println(e);
 //		} finally {
-//			// ��ɺ�ر�
+//			// 锟斤拷珊锟截憋拷
 //			MySQLConnector.disconnect();
 //		}
 //	}
 //
-//	// ɾ����Ӧѧ����Ӧ�γ̵ĳɼ�
+//	// 删锟斤拷锟斤拷应学锟斤拷锟斤拷应锟轿程的成硷拷
 //	public static void deleteStuGrade(String sid, String cid) throws CourseNotMatchStudentException {
 //		if (!VerifyTools.isCourseMatchStudent(cid, sid)) {
 //			throw new CourseNotMatchStudentException();
@@ -247,12 +250,12 @@ public class NTeaTools implements LogIplm {
 //		} catch (Exception e) {
 //			System.out.println(e);
 //		} finally {
-//			// ��ɺ�ر�
+//			// 锟斤拷珊锟截憋拷
 //			MySQLConnector.disconnect();
 //		}
 //	}
 //
-//	// �޸���Ӧѧ����Ӧ�γ̵ĳɼ�
+//	// 锟睫革拷锟斤拷应学锟斤拷锟斤拷应锟轿程的成硷拷
 //	public static void alterStuGrade(String sid, String cid, int grade) throws CourseNotMatchStudentException {
 //		if(!VerifyTools.isCourseMatchStudent(cid, sid)) {
 //			throw new CourseNotMatchStudentException();
@@ -266,7 +269,7 @@ public class NTeaTools implements LogIplm {
 //
 //			System.out.println(e);
 //		} finally {
-//			// ��ɺ�ر�
+//			// 锟斤拷珊锟截憋拷
 //			MySQLConnector.disconnect();
 //		}
 //	}
