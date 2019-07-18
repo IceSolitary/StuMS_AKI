@@ -7,11 +7,13 @@ import cn.edu.cuc.aki.stuMS.exception.TeacherNotExistException;
 
 public class VerifyTools {
 	
-	//用于验证的类
+	/**
+	 * 验证方法
+	 */
 	
 	//判断是否存在此tid的教师
 	public static boolean isTeacherExist(String tid) {
-		String sql = "select * from course where tid = '" + tid +"';";
+		String sql = "select * from course where nteacher = '" + tid +"';";
 		try {
 			ResultSet rSet = MySQLConnector.returnConnect(sql);
 			if(rSet.next()) {
@@ -48,8 +50,8 @@ public class VerifyTools {
 	}
 	
 	//判断课程是否与教师相匹配
-	public static boolean isCourseMatchTeacher(String cid,String tid) {
-		String sql = "select * from course where cid = '" + cid +"'and tid='" + tid +"';";
+	public static boolean isCourseMatchTeacher(String sid, String tid) {
+		String sql = "select * from ct where sid = '" + sid +"' and tid ='" + tid +"';";
 		try {
 			ResultSet rSet = MySQLConnector.returnConnect(sql);
 			if(rSet.next()) {
@@ -86,8 +88,8 @@ public class VerifyTools {
 	}
 	
 	//判断学生是否选了相应课程
-	public static boolean isCourseMatchStudent(String cid,String sid) {
-		String sql = "select * from sc where cid = '" + cid +"'and sid='" + sid +"';";
+	public static boolean isCourseMatchStudent(String kkid,String sid) {
+		String sql = "select * from sc where kkid = '" + kkid +"'and sid='" + sid +"';";
 		try {
 			ResultSet rSet = MySQLConnector.returnConnect(sql);
 			if(rSet.next()) {

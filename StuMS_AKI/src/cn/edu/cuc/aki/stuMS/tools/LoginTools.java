@@ -8,6 +8,18 @@ import cn.edu.cuc.aki.stuMS.exception.PasswordErrorException;
 import cn.edu.cuc.aki.stuMS.tools.log.LogIplm;
 
 public class LoginTools {
+	/**
+	 * 登陆方法
+	 */
+	
+	/**
+	 * 登陆函数
+	 * @param id  登陆id
+	 * @param password  密码
+	 * @return  登陆后的角色，以此选择进入何种界面
+	 * @throws PasswordErrorException  密码错误异常
+	 * @throws IDNotExistException  用户不存在异常
+	 */
 	public static int login(String id, String password) throws PasswordErrorException, IDNotExistException {
 		String sql = "select password,role from user where id = '" + id + "';";
 		try {

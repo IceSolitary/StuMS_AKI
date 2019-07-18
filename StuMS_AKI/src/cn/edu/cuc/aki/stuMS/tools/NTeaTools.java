@@ -17,16 +17,16 @@ import cn.edu.cuc.aki.stuMS.tools.log.LogIplm;
 public class NTeaTools implements LogIplm {
 
 	/**
-	 * ½ÌÊ¦·½·¨
+	 * ï¿½ï¿½Í¨ï¿½ï¿½Ê¦ï¿½ï¿½ï¿½ï¿½
 	 */
 
 	/**
-	 * »ñÈ¡×Ô¼ºµÄÐÅÏ¢
+	 * ï¿½ï¿½È¡ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 	 * 
-	 * @param tid ½ÌÊ¦id
-	 * @return ×Ö·û´®ÐÍÐÅÏ¢×Öµä
+	 * @param tid ï¿½ï¿½Ê¦id
+	 * @return ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½Öµï¿½
 	 */
-	public static Map<String, String> selectStuInfo(String tid) {
+	public static Map<String, String> selectNTInfo(String tid) {
 		String sql = "select * from nteacher where tid = '" + tid + "';";
 		try {
 			ResultSet rsSet = MySQLConnector.returnConnect(sql);
@@ -44,26 +44,31 @@ public class NTeaTools implements LogIplm {
 				stuInfo.put("age", ageString);
 				String major = rsSet.getString("major");
 				stuInfo.put("major", major);
-				return stuInfo;
+				String logContent = "id : " + tid + " role:NT \nUser inquire own information.";
+				LogIplm.addLog(LogIplm.TYPE.INFORMATION, logContent);
+				return stuInfo;	
 			} else {
-				return null;
+				String logContent = "id : " + tid + " role:NT \nUser inquire own information,but null.";
+				LogIplm.addLog(LogIplm.TYPE.WARNING, logContent);
+				return stuInfo;
 			}
 		} catch (SQLException se) {
 			// TODO: handle exception
-
+			String logContent = "id : " + tid + " role:NT \nUser inquire own information,but error.";
+			LogIplm.addLog(LogIplm.TYPE.ERROR, logContent);
 			System.out.println(se);
 			return null;
 		} finally {
-			// Íê³Éºó¹Ø±Õ
+			// ï¿½ï¿½Éºï¿½Ø±ï¿½
 			MySQLConnector.disconnect();
 		}
 	}
 
 	/**
-	 * ²éÑ¯×Ô¼ºµÄ¿Î³Ì
+	 * ï¿½ï¿½Ñ¯ï¿½Ô¼ï¿½ï¿½Ä¿Î³ï¿½
 	 * 
-	 * @param tid ½ÌÊ¦×Ô¼ºµÄid
-	 * @return ¿Î³ÌÐÅÏ¢ÁÐ±í
+	 * @param tid ï¿½ï¿½Ê¦ï¿½Ô¼ï¿½ï¿½ï¿½id
+	 * @return ï¿½Î³ï¿½ï¿½ï¿½Ï¢ï¿½Ð±ï¿½
 	 */
 	public static ArrayList<String[]> selectTCourse(String tid) {
 
@@ -78,21 +83,23 @@ public class NTeaTools implements LogIplm {
 				String[] info = { kkid, cname };
 				data.add(info);
 			}
+			String logContent = "id : " + tid + " role:NT \nUser inquire own information.";
+			LogIplm.addLog(LogIplm.TYPE.INFORMATION, logContent);
 			return data;
 		} catch (SQLException se) {
 			System.out.println(se);
 			return null;
 		} finally {
-			// Íê³Éºó¹Ø±Õ
+			// ï¿½ï¿½Éºï¿½Ø±ï¿½
 			MySQLConnector.disconnect();
 		}
 	}
 
 	/**
-	 * ²éÑ¯×Ô¼ºËùÓÐÑ§ÉúµÄ³É¼¨
+	 * ï¿½ï¿½Ñ¯ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½Ä³É¼ï¿½
 	 * 
-	 * @param tid ½ÌÊ¦×Ô¼ºµÄid
-	 * @return ËùÓÐÑ§ÉúµÄ³É¼¨ÐÅÏ¢ÁÐ±í
+	 * @param tid ï¿½ï¿½Ê¦ï¿½Ô¼ï¿½ï¿½ï¿½id
+	 * @return ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½Ä³É¼ï¿½ï¿½ï¿½Ï¢ï¿½Ð±ï¿½
 	 */
 	public static ArrayList<String[]> selectStuGrade(String tid) {
 		String sql = "select sc.kkid, course.cname, stu.sid, stu.name, sc.grade \r\n" + "from ct, sc ,stu,course \r\n"
@@ -118,19 +125,20 @@ public class NTeaTools implements LogIplm {
 			System.out.println(se);
 			return null;
 		} finally {
-			// Íê³Éºó¹Ø±Õ
+			// ï¿½ï¿½Éºï¿½Ø±ï¿½
 			MySQLConnector.disconnect();
 		}
 	}
 
 	/**
-	 * ÐÞ¸ÄÑ§ÉúÏàÓ¦¿Î³ÌµÄ³É¼¨
-	 * @param tid  ²Ù×÷ÀÏÊ¦µÄid
-	 * @param sid  Ñ§Éúid
-	 * @param kkid  ÏàÓ¦¿Î³Ìid
-	 * @param grade  ÐÞ¸ÄºóµÄÐÂ³É¼¨
+	 * ï¿½Þ¸ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Î³ÌµÄ³É¼ï¿½
+	 * @param tid  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¦ï¿½ï¿½id
+	 * @param sid  Ñ§ï¿½ï¿½id
+	 * @param kkid  ï¿½ï¿½Ó¦ï¿½Î³ï¿½id
+	 * @param grade  ï¿½Þ¸Äºï¿½ï¿½ï¿½Â³É¼ï¿½
 	 * @throws CourseNotMatchStudentException
 	 */
+<<<<<<< HEAD
 //	public static void alterStuGrade(String tid, String sid, String kkid, int grade)
 //			throws CourseNotMatchStudentException {
 //		if (!VerifyTools.isCourseMatchStudent(cid, sid)) {
@@ -145,7 +153,7 @@ public class NTeaTools implements LogIplm {
 //
 //			System.out.println(e);
 //		} finally {
-//			// Íê³Éºó¹Ø±Õ
+//			// ï¿½ï¿½Éºï¿½Ø±ï¿½
 //			MySQLConnector.disconnect();
 //		}
 //	}
@@ -158,18 +166,18 @@ public class NTeaTools implements LogIplm {
 		String sql = "insert into course (cid,cname,tid) values('" + cid + "','" + cname + "','" + tid + "');";
 		try {
 			MySQLConnector.connect(sql);
-			String logContent = "id:" + cid + " ÓÃ»§Ïò½ÌÊ¦¿Î³Ì±íÖÐÌí¼ÓÁË¿Î³ÌºÅÎª" + cid + "¿Î³ÌÃûÎª£º" + cname + "½ÌÊ¦idÎª£º";
+			String logContent = "id:" + cid + " ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ê¦ï¿½Î³Ì±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¿Î³Ìºï¿½Îª" + cid + "ï¿½Î³ï¿½ï¿½ï¿½Îªï¿½ï¿½" + cname + "ï¿½ï¿½Ê¦idÎªï¿½ï¿½";
 			LogIplm.addLog(TYPE.INFORMATION, logContent);
 		} catch (Exception e) {
 			System.out.println(e);
 		} finally {
-			// Íê³Éºó¹Ø±Õ
+			// ï¿½ï¿½Éºï¿½Ø±ï¿½
 			MySQLConnector.disconnect();
 		}
 
 	}
 
-	// É¾³ýÏàÓ¦½ÌÊ¦µÄ¿Î³Ì
+	// É¾ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Ê¦ï¿½Ä¿Î³ï¿½
 	public static void deleteTCourse(String tid, String cid) throws CourseNotMatchTeacherException {
 
 		if (!VerifyTools.isCourseMatchTeacher(cid, tid)) {
@@ -177,34 +185,42 @@ public class NTeaTools implements LogIplm {
 		}
 
 		String sql = "delete from course where cid = '" + cid + "';";
+=======
+	public static void alterStuGrade(String tid, String sid, String kkid, int grade) throws CourseNotMatchStudentException {
+		if (!VerifyTools.isCourseMatchStudent(kkid,sid)) {
+			throw new CourseNotMatchStudentException();
+		}
+		String sql = "upadate course set grade = " + grade + " where kkid = '" + kkid + "'and sid = '" + sid + "';";
+>>>>>>> fdad9f7aa72079b4baec5fbdc3af3c26bd340a26
 		try {
 			MySQLConnector.connect(sql);
 
 		} catch (Exception e) {
 			System.out.println(e);
 		} finally {
-			// Íê³Éºó¹Ø±Õ
+			// ï¿½ï¿½Éºï¿½Ø±ï¿½
 			MySQLConnector.disconnect();
 		}
 	}
 
-	// ÐÞ¸ÄÏàÓ¦½ÌÊ¦¿Î³Ì
-	public static void alterTCourse(String cid, String tid, String cname) throws CourseNotMatchTeacherException {
-		if (!VerifyTools.isCourseMatchTeacher(cid, tid)) {
-			throw new CourseNotMatchTeacherException();
-		}
-		String sql = "upadate course set cname = '" + cname + "' where cid = '" + cid + "'and tid = '" + tid + "';";
-		try {
-			MySQLConnector.connect(sql);
-		} catch (Exception e) {
-			System.out.println(e);
-		} finally {
-			// Íê³Éºó¹Ø±Õ
-			MySQLConnector.disconnect();
-		}
-	}
-
-//	// ²éÑ¯ÏàÓ¦½ÌÊ¦ËùÊÚ¿Î
+//
+//	// ï¿½Þ¸ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Ê¦ï¿½Î³ï¿½
+//	public static void alterTCourse(String cid, String tid, String cname) throws CourseNotMatchTeacherException {
+//		if (!VerifyTools.isCourseMatchTeacher(cid, tid)) {
+//			throw new CourseNotMatchTeacherException();
+//		}
+//		String sql = "upadate course set cname = '" + cname + "' where cid = '" + cid + "'and tid = '" + tid + "';";
+//		try {
+//			MySQLConnector.connect(sql);
+//		} catch (Exception e) {
+//			System.out.println(e);
+//		} finally {
+//			// ï¿½ï¿½Éºï¿½Ø±ï¿½
+//			MySQLConnector.disconnect();
+//		}
+//	}
+//
+//	// ï¿½ï¿½Ñ¯ï¿½ï¿½Ó¦ï¿½ï¿½Ê¦ï¿½ï¿½ï¿½Ú¿ï¿½
 //	public static ArrayList[] selectTCourse(String tid) throws TeacherNotExistException {
 //		if(! VerifyTools.isTeacherExist(tid)) {
 //			throw new TeacherNotExistException();
@@ -226,50 +242,50 @@ public class NTeaTools implements LogIplm {
 //			System.out.println(se);
 //			return null;
 //		} finally {
-//			// Íê³Éºó¹Ø±Õ
+//			// ï¿½ï¿½Éºï¿½Ø±ï¿½
 //			MySQLConnector.disconnect();
 //		}
 //	}
-
-	// Ôö¼ÓÑ§ÉúÏàÓ¦¿Î³Ì³É¼¨
-	public static void addStuGrade(String sid, String cid, int grade)
-			throws StudentNotExistException, CourseNotMatchTeacherException {
-		if (!VerifyTools.isStudentExist(sid)) {
-			throw new StudentNotExistException();
-		}
-		if (!VerifyTools.isCourseExist(cid)) {
-			throw new CourseNotMatchTeacherException();
-		}
-		String sql = "insert into sc (sid,cid,grade) values('" + sid + "','" + cid + "'," + grade + ");";
-		try {
-			MySQLConnector.connect(sql);
-		} catch (Exception e) {
-
-			System.out.println(e);
-		} finally {
-			// Íê³Éºó¹Ø±Õ
-			MySQLConnector.disconnect();
-		}
-	}
-
-	// É¾³ýÏàÓ¦Ñ§ÉúÏàÓ¦¿Î³ÌµÄ³É¼¨
-	public static void deleteStuGrade(String sid, String cid) throws CourseNotMatchStudentException {
-		if (!VerifyTools.isCourseMatchStudent(cid, sid)) {
-			throw new CourseNotMatchStudentException();
-		}
-		String sql = "delete from sc where cid = '" + cid + "'and sid = '" + sid + "';";
-		try {
-			MySQLConnector.connect(sql);
-
-		} catch (Exception e) {
-			System.out.println(e);
-		} finally {
-			// Íê³Éºó¹Ø±Õ
-			MySQLConnector.disconnect();
-		}
-	}
-
-//	// ÐÞ¸ÄÏàÓ¦Ñ§ÉúÏàÓ¦¿Î³ÌµÄ³É¼¨
+//
+//	// ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Î³Ì³É¼ï¿½
+//	public static void addStuGrade(String sid, String cid, int grade)
+//			throws StudentNotExistException, CourseNotMatchTeacherException {
+//		if (!VerifyTools.isStudentExist(sid)) {
+//			throw new StudentNotExistException();
+//		}
+//		if (!VerifyTools.isCourseExist(cid)) {
+//			throw new CourseNotMatchTeacherException();
+//		}
+//		String sql = "insert into sc (sid,cid,grade) values('" + sid + "','" + cid + "'," + grade + ");";
+//		try {
+//			MySQLConnector.connect(sql);
+//		} catch (Exception e) {
+//
+//			System.out.println(e);
+//		} finally {
+//			// ï¿½ï¿½Éºï¿½Ø±ï¿½
+//			MySQLConnector.disconnect();
+//		}
+//	}
+//
+//	// É¾ï¿½ï¿½ï¿½ï¿½Ó¦Ñ§ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Î³ÌµÄ³É¼ï¿½
+//	public static void deleteStuGrade(String sid, String cid) throws CourseNotMatchStudentException {
+//		if (!VerifyTools.isCourseMatchStudent(cid, sid)) {
+//			throw new CourseNotMatchStudentException();
+//		}
+//		String sql = "delete from sc where cid = '" + cid + "'and sid = '" + sid + "';";
+//		try {
+//			MySQLConnector.connect(sql);
+//
+//		} catch (Exception e) {
+//			System.out.println(e);
+//		} finally {
+//			// ï¿½ï¿½Éºï¿½Ø±ï¿½
+//			MySQLConnector.disconnect();
+//		}
+//	}
+//
+//	// ï¿½Þ¸ï¿½ï¿½ï¿½Ó¦Ñ§ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Î³ÌµÄ³É¼ï¿½
 //	public static void alterStuGrade(String sid, String cid, int grade) throws CourseNotMatchStudentException {
 //		if(!VerifyTools.isCourseMatchStudent(cid, sid)) {
 //			throw new CourseNotMatchStudentException();
@@ -283,62 +299,11 @@ public class NTeaTools implements LogIplm {
 //
 //			System.out.println(e);
 //		} finally {
-//			// Íê³Éºó¹Ø±Õ
+//			// ï¿½ï¿½Éºï¿½Ø±ï¿½
 //			MySQLConnector.disconnect();
 //		}
 //	}
-
-	// ²éÑ¯Ñ§Éú¿Î³Ì³É¼¨
-
-	public static ArrayList[] searchStuGrade(String sid, String cid) throws StudentNotExistException {
-		if (!VerifyTools.isStudentExist(sid)) {
-			throw new StudentNotExistException();
-		}
-		String sql = "select sname , cname ,grade from course,stu,sc where stu.sid = sc.sid and sc.cid = course.cid and cid = '"
-				+ cid + "'and sid='" + sid + "';";
-		try {
-			ResultSet rsSet = MySQLConnector.returnConnect(sql);
-			ArrayList[] data = new ArrayList[3];
-			data[0].add("sname");
-			data[1].add("cname");
-			data[2].add("grade");
-			while (rsSet.next()) {
-				String sname = rsSet.getString("sname");
-				data[0].add(sname);
-				String cname = rsSet.getString("cname");
-				data[0].add(cname);
-				int grade = rsSet.getInt("grade");
-				data[0].add(grade);
-			}
-			return data;
-		} catch (SQLException se) {
-			// TODO: handle exception
-
-			System.out.println(se);
-			return null;
-		} finally {
-			// Íê³Éºó¹Ø±Õ
-			MySQLConnector.disconnect();
-		}
-	}
-
-	// ÐÞ¸ÄÑ§ÉúÐÅÏ¢
-	public static void alterStuInfo(String sid, String name, int sex, int age, String major)
-			throws StudentNotExistException {
-		if (!VerifyTools.isStudentExist(sid)) {
-			throw new StudentNotExistException();
-		}
-		String sql = "upadate stu set name = '" + name + "',sex = " + sex + ",age = " + age + ",major='" + major
-				+ "', where sid = '" + sid + "';";
-		try {
-			MySQLConnector.connect(sql);
-
-		} catch (Exception e) {
-			System.out.println(e);
-		} finally {
-			// Íê³Éºó¹Ø±Õ
-			MySQLConnector.disconnect();
-		}
-	}
+//
+//
 
 }
