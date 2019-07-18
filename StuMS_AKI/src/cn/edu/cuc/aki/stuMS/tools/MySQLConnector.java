@@ -9,31 +9,31 @@ import java.sql.Statement;
 public class MySQLConnector {
 
 	/**
-	 * mysqlÁ¬½Ó¹¤¾ß
+	 * mysqlï¿½ï¿½ï¿½Ó¹ï¿½ï¿½ï¿½
 	 */
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
 	static final String DB_URL = "jdbc:mysql://localhost:3306/stuinfomanage?useSSL=false&serverTimezone=UTC";
 
-	// Êý¾Ý¿âµÄÓÃ»§ÃûÓëÃÜÂë£¬ÐèÒª¸ù¾Ý×Ô¼ºµÄÉèÖÃ
+	// ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë£¬ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	static final String USER = "root";
 	static final String PASS = "Heartcheerful";
 	static Connection conn = null;
 	static Statement stmt = null;
 
-	// Íê³Éºó¹Ø±Õ
+	// ï¿½ï¿½Éºï¿½Ø±ï¿½
 
 	public static ResultSet returnConnect(String sql) {
 
 		try {
-			// ×¢²á JDBC Çý¶¯
+			// ×¢ï¿½ï¿½ JDBC ï¿½ï¿½ï¿½ï¿½
 			Class.forName(JDBC_DRIVER);
 
-			// ´ò¿ªÁ´½Ó
-			System.out.println("Á¬½ÓÊý¾Ý¿â...");
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½...");
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
-			// Ö´ÐÐ²éÑ¯
-			System.out.println(" ÊµÀý»¯Statement¶ÔÏó...");
+			// Ö´ï¿½Ð²ï¿½Ñ¯
+			System.out.println(" Êµï¿½ï¿½ï¿½ï¿½Statementï¿½ï¿½ï¿½ï¿½...");
 			stmt = conn.createStatement();
 
 			ResultSet rs = stmt.executeQuery(sql);
@@ -41,11 +41,11 @@ public class MySQLConnector {
 			return rs;
 
 		} catch (SQLException se) {
-			// ´¦Àí JDBC ´íÎó
+			// ï¿½ï¿½ï¿½ï¿½ JDBC ï¿½ï¿½ï¿½ï¿½
 			se.printStackTrace();
 			return null;
 		} catch (Exception e) {
-			// ´¦Àí Class.forName ´íÎó
+			// ï¿½ï¿½ï¿½ï¿½ Class.forName ï¿½ï¿½ï¿½ï¿½
 			e.printStackTrace();
 			return null;
 		}
@@ -54,23 +54,23 @@ public class MySQLConnector {
 	public static void connect(String sql) {
 
 		try {
-			// ×¢²á JDBC Çý¶¯
+			// ×¢ï¿½ï¿½ JDBC ï¿½ï¿½ï¿½ï¿½
 			Class.forName(JDBC_DRIVER);
 
-			// ´ò¿ªÁ´½Ó
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
-			// Ö´ÐÐ²éÑ¯
+			// Ö´ï¿½Ð²ï¿½Ñ¯
 			stmt = conn.createStatement();
 
 			stmt.execute(sql);
 
 		} catch (SQLException se) {
-			// ´¦Àí JDBC ´íÎó
+			// ï¿½ï¿½ï¿½ï¿½ JDBC ï¿½ï¿½ï¿½ï¿½
 			se.printStackTrace();
 
 		} catch (Exception e) {
-			// ´¦Àí Class.forName ´íÎó
+			// ï¿½ï¿½ï¿½ï¿½ Class.forName ï¿½ï¿½ï¿½ï¿½
 			e.printStackTrace();
 
 		}
@@ -79,7 +79,7 @@ public class MySQLConnector {
 	public static void disconnect() {
 		try {
 
-			// Íê³Éºó¹Ø±Õ
+			// ï¿½ï¿½Éºï¿½Ø±ï¿½
 			if (stmt != null)
 				stmt.close();
 

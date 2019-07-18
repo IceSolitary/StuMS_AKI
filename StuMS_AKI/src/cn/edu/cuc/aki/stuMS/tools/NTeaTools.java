@@ -17,14 +17,14 @@ import cn.edu.cuc.aki.stuMS.tools.log.LogIplm;
 public class NTeaTools implements LogIplm {
 
 	/**
-	 * ÆÕÍ¨½ÌÊ¦·½·¨
+	 * ï¿½ï¿½Í¨ï¿½ï¿½Ê¦ï¿½ï¿½ï¿½ï¿½
 	 */
 
 	/**
-	 * »ñÈ¡×Ô¼ºµÄÐÅÏ¢
+	 * ï¿½ï¿½È¡ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 	 * 
-	 * @param tid ½ÌÊ¦id
-	 * @return ×Ö·û´®ÐÍÐÅÏ¢×Öµä
+	 * @param tid ï¿½ï¿½Ê¦id
+	 * @return ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½Öµï¿½
 	 */
 	public static Map<String, String> selectNTInfo(String tid) {
 		String sql = "select * from nteacher where tid = '" + tid + "';";
@@ -68,16 +68,16 @@ public class NTeaTools implements LogIplm {
 			System.out.println(se);
 			return null;
 		} finally {
-			// Íê³Éºó¹Ø±Õ
+			// ï¿½ï¿½Éºï¿½Ø±ï¿½
 			MySQLConnector.disconnect();
 		}
 	}
 
 	/**
-	 * ²éÑ¯×Ô¼ºµÄ¿Î³Ì
+	 * ï¿½ï¿½Ñ¯ï¿½Ô¼ï¿½ï¿½Ä¿Î³ï¿½
 	 * 
-	 * @param tid ½ÌÊ¦×Ô¼ºµÄid
-	 * @return ¿Î³ÌÐÅÏ¢ÁÐ±í
+	 * @param tid ï¿½ï¿½Ê¦ï¿½Ô¼ï¿½ï¿½ï¿½id
+	 * @return ï¿½Î³ï¿½ï¿½ï¿½Ï¢ï¿½Ð±ï¿½
 	 */
 	public static ArrayList<String[]> selectTCourse(String tid) {
 
@@ -101,16 +101,16 @@ public class NTeaTools implements LogIplm {
 			System.out.println(se);
 			return null;
 		} finally {
-			// Íê³Éºó¹Ø±Õ
+			// ï¿½ï¿½Éºï¿½Ø±ï¿½
 			MySQLConnector.disconnect();
 		}
 	}
 
 	/**
-	 * ²éÑ¯×Ô¼ºËùÓÐÑ§ÉúµÄ³É¼¨
+	 * ï¿½ï¿½Ñ¯ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½Ä³É¼ï¿½
 	 * 
-	 * @param tid ½ÌÊ¦×Ô¼ºµÄid
-	 * @return ËùÓÐÑ§ÉúµÄ³É¼¨ÐÅÏ¢ÁÐ±í
+	 * @param tid ï¿½ï¿½Ê¦ï¿½Ô¼ï¿½ï¿½ï¿½id
+	 * @return ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½Ä³É¼ï¿½ï¿½ï¿½Ï¢ï¿½Ð±ï¿½
 	 */
 	public static ArrayList<String[]> selectStuGrade(String tid) {
 		String sql = "select sc.kkid, course.cname, stu.sid, stu.name, sc.grade \r\n" + "from ct, sc ,stu,course \r\n"
@@ -138,17 +138,17 @@ public class NTeaTools implements LogIplm {
 			LogIplm.addLog(LogIplm.TYPE.ERROR, logContent);
 			return null;
 		} finally {
-			// Íê³Éºó¹Ø±Õ
+			// ï¿½ï¿½Éºï¿½Ø±ï¿½
 			MySQLConnector.disconnect();
 		}
 	}
 
 	/**
-	 * ÐÞ¸ÄÑ§ÉúÏàÓ¦¿Î³ÌµÄ³É¼¨
-	 * @param tid  ²Ù×÷ÀÏÊ¦µÄid
-	 * @param sid  Ñ§Éúid
-	 * @param kkid  ÏàÓ¦¿Î³Ìid
-	 * @param grade  ÐÞ¸ÄºóµÄÐÂ³É¼¨
+	 * ï¿½Þ¸ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Î³ÌµÄ³É¼ï¿½
+	 * @param tid  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¦ï¿½ï¿½id
+	 * @param sid  Ñ§ï¿½ï¿½id
+	 * @param kkid  ï¿½ï¿½Ó¦ï¿½Î³ï¿½id
+	 * @param grade  ï¿½Þ¸Äºï¿½ï¿½ï¿½Â³É¼ï¿½
 	 * @throws CourseNotMatchStudentException
 	 */
 	public static void alterStuGrade(String tid, String sid, String kkid, int grade) throws CourseNotMatchStudentException {
@@ -165,13 +165,13 @@ public class NTeaTools implements LogIplm {
 			LogIplm.addLog(LogIplm.TYPE.ERROR, logContent);
 			System.out.println(e);
 		} finally {
-			// Íê³Éºó¹Ø±Õ
+			// ï¿½ï¿½Éºï¿½Ø±ï¿½
 			MySQLConnector.disconnect();
 		}
 	}
 
 //
-//	// ÐÞ¸ÄÏàÓ¦½ÌÊ¦¿Î³Ì
+//	// ï¿½Þ¸ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Ê¦ï¿½Î³ï¿½
 //	public static void alterTCourse(String cid, String tid, String cname) throws CourseNotMatchTeacherException {
 //		if (!VerifyTools.isCourseMatchTeacher(cid, tid)) {
 //			throw new CourseNotMatchTeacherException();
@@ -182,12 +182,12 @@ public class NTeaTools implements LogIplm {
 //		} catch (Exception e) {
 //			System.out.println(e);
 //		} finally {
-//			// Íê³Éºó¹Ø±Õ
+//			// ï¿½ï¿½Éºï¿½Ø±ï¿½
 //			MySQLConnector.disconnect();
 //		}
 //	}
 //
-//	// ²éÑ¯ÏàÓ¦½ÌÊ¦ËùÊÚ¿Î
+//	// ï¿½ï¿½Ñ¯ï¿½ï¿½Ó¦ï¿½ï¿½Ê¦ï¿½ï¿½ï¿½Ú¿ï¿½
 //	public static ArrayList[] selectTCourse(String tid) throws TeacherNotExistException {
 //		if(! VerifyTools.isTeacherExist(tid)) {
 //			throw new TeacherNotExistException();
@@ -209,12 +209,12 @@ public class NTeaTools implements LogIplm {
 //			System.out.println(se);
 //			return null;
 //		} finally {
-//			// Íê³Éºó¹Ø±Õ
+//			// ï¿½ï¿½Éºï¿½Ø±ï¿½
 //			MySQLConnector.disconnect();
 //		}
 //	}
 //
-//	// Ôö¼ÓÑ§ÉúÏàÓ¦¿Î³Ì³É¼¨
+//	// ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Î³Ì³É¼ï¿½
 //	public static void addStuGrade(String sid, String cid, int grade)
 //			throws StudentNotExistException, CourseNotMatchTeacherException {
 //		if (!VerifyTools.isStudentExist(sid)) {
@@ -230,12 +230,12 @@ public class NTeaTools implements LogIplm {
 //
 //			System.out.println(e);
 //		} finally {
-//			// Íê³Éºó¹Ø±Õ
+//			// ï¿½ï¿½Éºï¿½Ø±ï¿½
 //			MySQLConnector.disconnect();
 //		}
 //	}
 //
-//	// É¾³ýÏàÓ¦Ñ§ÉúÏàÓ¦¿Î³ÌµÄ³É¼¨
+//	// É¾ï¿½ï¿½ï¿½ï¿½Ó¦Ñ§ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Î³ÌµÄ³É¼ï¿½
 //	public static void deleteStuGrade(String sid, String cid) throws CourseNotMatchStudentException {
 //		if (!VerifyTools.isCourseMatchStudent(cid, sid)) {
 //			throw new CourseNotMatchStudentException();
@@ -247,12 +247,12 @@ public class NTeaTools implements LogIplm {
 //		} catch (Exception e) {
 //			System.out.println(e);
 //		} finally {
-//			// Íê³Éºó¹Ø±Õ
+//			// ï¿½ï¿½Éºï¿½Ø±ï¿½
 //			MySQLConnector.disconnect();
 //		}
 //	}
 //
-//	// ÐÞ¸ÄÏàÓ¦Ñ§ÉúÏàÓ¦¿Î³ÌµÄ³É¼¨
+//	// ï¿½Þ¸ï¿½ï¿½ï¿½Ó¦Ñ§ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Î³ÌµÄ³É¼ï¿½
 //	public static void alterStuGrade(String sid, String cid, int grade) throws CourseNotMatchStudentException {
 //		if(!VerifyTools.isCourseMatchStudent(cid, sid)) {
 //			throw new CourseNotMatchStudentException();
@@ -266,7 +266,7 @@ public class NTeaTools implements LogIplm {
 //
 //			System.out.println(e);
 //		} finally {
-//			// Íê³Éºó¹Ø±Õ
+//			// ï¿½ï¿½Éºï¿½Ø±ï¿½
 //			MySQLConnector.disconnect();
 //		}
 //	}
