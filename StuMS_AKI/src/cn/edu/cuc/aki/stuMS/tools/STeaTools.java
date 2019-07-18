@@ -154,9 +154,11 @@ public class STeaTools {
 				String tname = rsSet.getString("tname");
 				String sid = rsSet.getString("sid");
 				String sname = rsSet.getString("name");
-				int grade = rsSet.getInt("grade");
-				String graString = Integer.toString(grade);
-				String[] info = {kkid , cname, tid, tname, graString};
+				String grade = rsSet.getString("grade");
+				if(grade=="-1") {
+					grade=null;
+				}
+				String[] info = {kkid , cname, tid, tname, grade};
 				data.add(info);
 			}
 			String logContent = "id : " + oid + " role:ST \nUser inquire all grades information of all students.";
