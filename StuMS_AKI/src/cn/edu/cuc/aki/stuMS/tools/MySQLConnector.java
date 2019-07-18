@@ -21,7 +21,7 @@ public class MySQLConnector {
         // 完成后关闭
         
       
-	    public static ResultSet connect(String sql) {
+	    public static ResultSet returnConnect(String sql) {
 	    	 
 	         try{
 	             // 注册 JDBC 驱动
@@ -51,6 +51,34 @@ public class MySQLConnector {
 	         }
 	    }
 	    
+
+	    public static void connect(String sql) {
+	    	 
+	         try{
+	             // 注册 JDBC 驱动
+	             Class.forName(JDBC_DRIVER);
+	         
+	             // 打开链接
+	             System.out.println("连接数据库...");
+	             conn = DriverManager.getConnection(DB_URL,USER,PASS);
+	         
+	             // 执行查询
+	             System.out.println(" 实例化Statement对象...");
+	             stmt = conn.createStatement();
+	             
+	             stmt.execute(sql);
+
+	         }catch(SQLException se){
+	             // 处理 JDBC 错误
+	             se.printStackTrace();
+	             
+	         }catch(Exception e){
+	             // 处理 Class.forName 错误
+	             e.printStackTrace();
+	            
+	         }
+	    }
+	    
 	    public static void disconnect() {
 	    	try {
 	    		  
@@ -67,7 +95,5 @@ public class MySQLConnector {
 	    		se.printStackTrace();
 			}
 	    }
-	   
-	 
 	  
 }

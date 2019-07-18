@@ -3,6 +3,8 @@ package cn.edu.cuc.aki.stuMS.tools;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class StuTools {
 	
@@ -12,30 +14,28 @@ public class StuTools {
 	 */
 	
 	//查询学生本人的信息
-	public static ArrayList[] selectStuInfo(String sid) { 
+	public static Map<String,String> selectStuInfo(String sid) { 
 		String sql = "select * from stu where sid = '" + sid +"';";
 		try {
-			ResultSet rsSet = MySQLConnector.connect(sql);
-			ArrayList[] data = new ArrayList[5];
-			data[0].add("sid");
-			data[1].add("name");
-			data[2].add("sex");
-			data[3].add("age");
-			data[4].add("major");
-			while(rsSet.next()) {
+			ResultSet rsSet = MySQLConnector.returnConnect(sql);
+			Map<String,String> stuInfo = new HashMap<String,String>();
+			if(rsSet.next()) {
 				String ssid = rsSet.getString("sid");
-				data[0].add(ssid);
+				stuInfo.put("sid", ssid);
 				String name = rsSet.getString("name");
-				data[1].add(name);
+				stuInfo.put("name", name);
 				int sex = rsSet.getInt("sex");
-				data[2].add(sex);
+				String sexString = Integer.toString(sex);
+				stuInfo.put("sex", sexString);
 				int age = rsSet.getInt("age");
-				data[3].add(age);
+				String ageString = Integer.toString(age);
+				stuInfo.put("age", ageString);
 				String major = rsSet.getString("major");
-				data[4].add(major);
-				
+				stuInfo.put("major", major);
+				return stuInfo;
+			}else {
+				return null;
 			}
-			return data;
 		}catch (SQLException se) {
 			// TODO: handle exception
 			
@@ -48,19 +48,19 @@ public class StuTools {
 	}
 	
 	//查询学生本人的所有课程成绩
-	public static ArrayList[] selectStuGrade(String sid) { 
-		String sql = "select cname,grade from stu , c ,sc where stu.sid = sc.sid and c.cid = sc.cid and sty.sid = '" + sid +"';";
-		
+	public static ArrayList<String[]> selectStuGrade(String sid) { 
+		String sql = "select sc.kkid, course.cname, nteacher.tid, nteacher.tname, sc.grade from ct, sc ,nteacher,course where ct.kkid = sc.kkid and ct.cid = course.cid and ct.cid = course.cid and ct.tid=nteacher.tid and sc.sid = '"+ sid +"';";
 		try {
-			ResultSet rsSet = MySQLConnector.connect(sql);
-			ArrayList[] data = new ArrayList[2];
-			data[0].add("cname");
-			data[1].add("grade");
+			ResultSet rsSet = MySQLConnector.returnConnect(sql);
+			ArrayList<String[]> data = new ArrayList<String[]>();
 			while(rsSet.next()) {
+				String kkid = rsSet.getString("kkid");
 				String cname = rsSet.getString("cname");
-				data[0].add(cname);
-				int grade = rsSet.getInt("cname");
-				data[0].add(grade);
+				String tid = rsSet.getString("tid");
+				String tname = rsSet.getString("tname");
+				String grade = rsSet.getString("grade");
+				String[] info = {kkid , cname, tid, tname, grade};
+				data.add(info);
 			}
 			return data;
 		}catch (SQLException se) {
