@@ -32,23 +32,38 @@ public class STeaTools {
 			Map<String, String> stuInfo = new HashMap<String, String>();
 			if (rsSet.next()) {
 				String ssid = rsSet.getString("tid");
-				stuInfo.put("sid", ssid);
-				String name = rsSet.getString("name");
-				stuInfo.put("name", name);
+				stuInfo.put("tid", ssid);
+				String tname = rsSet.getString("tname");
+				stuInfo.put("tname", tname);
 				int sex = rsSet.getInt("sex");
-				String sexString = Integer.toString(sex);
+				String sexString;
+				if(sex==1){
+					sexString = "男";
+				}
+				else if(sex==2) {
+					sexString = "女";
+				}
+				else {
+					sexString = "未知";
+				}
 				stuInfo.put("sex", sexString);
 				int age = rsSet.getInt("age");
 				String ageString = Integer.toString(age);
 				stuInfo.put("age", ageString);
 				String major = rsSet.getString("major");
 				stuInfo.put("major", major);
+				String logContent = "id : " + tid + " role:ST \nUser inquire own information.";
+				LogIplm.addLog(LogIplm.TYPE.INFORMATION, logContent);
 				return stuInfo;
 			} else {
+				String logContent = "id : " + tid + " role:ST \nUser inquire own information, but null.";
+				LogIplm.addLog(LogIplm.TYPE.WARNING, logContent);
 				return stuInfo;
 			}
 		} catch (SQLException se) {
 			System.out.println(se);
+			String logContent = "id : " + tid + " role:ST \nUser inquire own information, but error.";
+			LogIplm.addLog(LogIplm.TYPE.ERROR, logContent);
 			return null;
 		} finally {
 			// 完成后关闭
@@ -79,9 +94,12 @@ public class STeaTools {
 		String sql = "insert into ct (kkid,cid,tid) values('" + kkid + "','" + cid + "','" + tid + "');";
 		try {
 			MySQLConnector.connect(sql);
-
+			String logContent = "id : " + oid + " role:ST \nUser open new course,whose tid= "+ tid +", cid = "+cid+", kkid="+kkid+".";
+			LogIplm.addLog(LogIplm.TYPE.INFORMATION, logContent);
 		} catch (Exception e) {
 			System.out.println(e);
+			String logContent = "id : " + oid + " role:ST \nUser open new course,whose tid= "+ tid +", cid = "+cid+", kkid="+kkid+", but error.";
+			LogIplm.addLog(LogIplm.TYPE.ERROR, logContent);
 		} finally {
 			// 完成后关闭
 			MySQLConnector.disconnect();
@@ -104,9 +122,12 @@ public class STeaTools {
 		String sql = "delete from ct where cid = '" + cid + "' and tid = '"+ tid +"';";
 		try {
 			MySQLConnector.connect(sql);
-
+			String logContent = "id : " + oid + " role:ST \nUser delete course,whose tid= "+ tid +", cid = "+cid+".";
+			LogIplm.addLog(LogIplm.TYPE.INFORMATION, logContent);
 		} catch (Exception e) {
 			System.out.println(e);
+			String logContent = "id : " + oid + " role:ST \nUser delete course,whose tid= "+ tid +", cid = "+cid+", but error.";
+			LogIplm.addLog(LogIplm.TYPE.ERROR, logContent);
 		} finally {
 			// 完成后关闭
 			MySQLConnector.disconnect();
@@ -132,16 +153,18 @@ public class STeaTools {
 				String tid = rsSet.getString("tid");
 				String tname = rsSet.getString("tname");
 				String sid = rsSet.getString("sid");
-				String sname = rsSet.getString("sname");
+				String sname = rsSet.getString("name");
 				int grade = rsSet.getInt("grade");
 				String graString = Integer.toString(grade);
 				String[] info = {kkid , cname, tid, tname, graString};
 				data.add(info);
 			}
+			String logContent = "id : " + oid + " role:ST \nUser inquire all grades information of all students.";
+			LogIplm.addLog(LogIplm.TYPE.INFORMATION, logContent);
 			return data;
 		} catch (SQLException se) {
-			// TODO: handle exception
-
+			String logContent = "id : " + oid + " role:ST \nUser inquire all grades information of all students, but error.";
+			LogIplm.addLog(LogIplm.TYPE.ERROR, logContent);
 			System.out.println(se);
 			return null;
 		} finally {
@@ -168,8 +191,11 @@ public class STeaTools {
 				+ "', where sid = '" + sid + "';";
 		try {
 			MySQLConnector.connect(sql);
-
+			String logContent = "id : " + oid + " role:ST \nUser alter student information whose sid =" + sid + ".";
+			LogIplm.addLog(LogIplm.TYPE.INFORMATION, logContent);
 		} catch (Exception e) {
+			String logContent = "id : " + oid + " role:ST \nUser alter student information whose sid =" + sid + ",but error.";
+			LogIplm.addLog(LogIplm.TYPE.ERROR, logContent);
 			System.out.println(e);
 		} finally {
 			// 完成后关闭

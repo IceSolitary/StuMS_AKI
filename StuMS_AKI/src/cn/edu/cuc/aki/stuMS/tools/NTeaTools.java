@@ -33,11 +33,20 @@ public class NTeaTools implements LogIplm {
 			Map<String, String> stuInfo = new HashMap<String, String>();
 			if (rsSet.next()) {
 				String ssid = rsSet.getString("tid");
-				stuInfo.put("sid", ssid);
-				String name = rsSet.getString("name");
-				stuInfo.put("name", name);
+				stuInfo.put("tid", ssid);
+				String tname = rsSet.getString("tname");
+				stuInfo.put("tname", tname);
 				int sex = rsSet.getInt("sex");
-				String sexString = Integer.toString(sex);
+				String sexString;
+				if(sex==1){
+					sexString = "男";
+				}
+				else if(sex==2) {
+					sexString = "女";
+				}
+				else {
+					sexString = "未知";
+				}
 				stuInfo.put("sex", sexString);
 				int age = rsSet.getInt("age");
 				String ageString = Integer.toString(age);
@@ -83,10 +92,12 @@ public class NTeaTools implements LogIplm {
 				String[] info = { kkid, cname };
 				data.add(info);
 			}
-			String logContent = "id : " + tid + " role:NT \nUser inquire own information.";
+			String logContent = "id : " + tid + " role:NT \nUser inquire own course information.";
 			LogIplm.addLog(LogIplm.TYPE.INFORMATION, logContent);
 			return data;
 		} catch (SQLException se) {
+			String logContent = "id : " + tid + " role:NT \nUser inquire own course information, but error.";
+			LogIplm.addLog(LogIplm.TYPE.ERROR, logContent);
 			System.out.println(se);
 			return null;
 		} finally {
@@ -113,16 +124,18 @@ public class NTeaTools implements LogIplm {
 				String kkid = rsSet.getString("kkid");
 				String cname = rsSet.getString("cname");
 				String sid = rsSet.getString("sid");
-				String sname = rsSet.getString("sname");
+				String sname = rsSet.getString("name");
 				String grade = rsSet.getString("grade");
 				String[] info = { kkid, cname, sid, sname, grade };
 				data.add(info);
 			}
+			String logContent = "id : " + tid + " role:NT \nUser inquire his or her all grades information of all students.";
+			LogIplm.addLog(LogIplm.TYPE.INFORMATION, logContent);
 			return data;
 		} catch (SQLException se) {
-			// TODO: handle exception
-
 			System.out.println(se);
+			String logContent = "id : " + tid + " role:NT \nUser inquire his or her all grades information of all students,but error.";
+			LogIplm.addLog(LogIplm.TYPE.ERROR, logContent);
 			return null;
 		} finally {
 			// 完成后关闭
@@ -142,11 +155,14 @@ public class NTeaTools implements LogIplm {
 		if (!VerifyTools.isCourseMatchStudent(kkid,sid)) {
 			throw new CourseNotMatchStudentException();
 		}
-		String sql = "upadate course set grade = " + grade + " where kkid = '" + kkid + "'and sid = '" + sid + "';";
+		String sql = "upadate sc set grade = " + grade + " where kkid = '" + kkid + "'and sid = '" + sid + "';";
 		try {
 			MySQLConnector.connect(sql);
-
+			String logContent = "id : " + tid + " role:NT \nUser alter student whose sid =" + sid + " and courseid = "+ kkid + " alter grade = " + grade +".";
+			LogIplm.addLog(LogIplm.TYPE.INFORMATION, logContent);
 		} catch (Exception e) {
+			String logContent = "id : " + tid + " role:NT \nUser alter student whose sid =" + sid + " and courseid = "+ kkid + " alter grade = " + grade +",but error.";
+			LogIplm.addLog(LogIplm.TYPE.ERROR, logContent);
 			System.out.println(e);
 		} finally {
 			// 完成后关闭
