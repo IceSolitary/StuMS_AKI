@@ -176,6 +176,50 @@ public class STeaTools {
 	}
 	
 	/**
+	 * 查询所有学生信息
+	 * @param oid  操作者的id
+	 * @return
+	 */
+	public static ArrayList<String[]> searchStuInfo(String oid) {
+		
+		String sql = "select * from stu ";
+		try {
+			ResultSet rsSet = MySQLConnector.returnConnect(sql);
+			ArrayList<String[]> data = new ArrayList<String[]>();
+			while(rsSet.next()) {
+				String sid = rsSet.getString("sid");
+				String name = rsSet.getString("name");
+				int sex = rsSet.getInt("sex");
+				String sexString;
+				if(sex==1){
+					sexString = "男";
+				}
+				else if(sex==2) {
+					sexString = "女";
+				}
+				else {
+					sexString = "未知";
+				}
+				String age = rsSet.getString("age");
+				String major = rsSet.getString("major");
+				String[] info = {sid , name, sexString, age, major};
+				data.add(info);
+			}
+			String logContent = "id : " + oid + " role:ST \nUser inquire all personal information of all students.";
+			LogIplm.addLog(LogIplm.TYPE.INFORMATION, logContent);
+			return data;
+		} catch (SQLException se) {
+			String logContent = "id : " + oid + " role:ST \nUser inquire all personal information of all students, but error.";
+			LogIplm.addLog(LogIplm.TYPE.ERROR, logContent);
+			System.out.println(se);
+			return null;
+		} finally {
+			// 完成后关闭
+			MySQLConnector.disconnect();
+		}
+	}
+	
+	/**
 	 * 修改学生信息
 	 * @param sid  选择修改的学生id
 	 * @param name  学生的姓名
