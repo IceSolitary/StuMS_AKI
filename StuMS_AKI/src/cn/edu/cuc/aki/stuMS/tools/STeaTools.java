@@ -200,10 +200,10 @@ public class STeaTools {
 				String sid = rsSet.getString("sid");
 				String sname = rsSet.getString("name");
 				String grade = rsSet.getString("grade");
-				if(grade=="-1") {
-					grade=null;
+				if(grade.equals("-1")) {
+					grade="лллллл";
 				}
-				String[] info = {kkid , cname, tid, tname, grade};
+				String[] info = {kkid , cname, sid, sname, tid, tname, grade};
 				data.add(info);
 			}
 			String logContent = "id : " + oid + " role:ST \nUser inquire all grades information of all students.";

@@ -9,31 +9,31 @@ import java.sql.Statement;
 public class MySQLConnector {
 
 	/**
-	 * mysql锟斤拷锟接癸拷锟斤拷
+	 * mysql閿熸枻鎷烽敓鎺ョ櫢鎷烽敓鏂ゆ嫹
 	 */
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost:3306/stu_info_manage_system?useSSL=false&serverTimezone=UTC";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/stu_info_manage_system?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF8";
 
-	// 锟斤拷锟捷匡拷锟斤拷没锟斤拷锟斤拷锟斤拷锟斤拷耄拷锟揭拷锟斤拷锟斤拷约锟斤拷锟斤拷锟斤拷锟�
+	// 閿熸枻鎷烽敓鎹峰尅鎷烽敓鏂ゆ嫹娌￠敓鏂ゆ嫹閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷疯�勵剨鎷烽敓鎻亷鎷烽敓鏂ゆ嫹閿熸枻鎷风害閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓锟�
 	static final String USER = "root";
-	static final String PASS = "Heartcheerful";
+	static final String PASS = "123456";
 	static Connection conn = null;
 	static Statement stmt = null;
 
-	// 锟斤拷珊锟截憋拷
+	// 閿熸枻鎷风強閿熸埅鎲嬫嫹
 
 	public static ResultSet returnConnect(String sql) {
 
 		try {
-			// 注锟斤拷 JDBC 锟斤拷锟斤拷
+			// 娉ㄩ敓鏂ゆ嫹 JDBC 閿熸枻鎷烽敓鏂ゆ嫹
 			Class.forName(JDBC_DRIVER);
 
-			// 锟斤拷锟斤拷锟斤拷
-			System.out.println("锟斤拷锟斤拷锟斤拷锟捷匡拷...");
+			// 閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷�
+			System.out.println("閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓鎹峰尅鎷�...");
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
-			// 执锟叫诧拷询
-			System.out.println(" 实锟斤拷锟斤拷Statement锟斤拷锟斤拷...");
+			// 鎵ч敓鍙鎷疯
+			System.out.println(" 瀹為敓鏂ゆ嫹閿熸枻鎷稴tatement閿熸枻鎷烽敓鏂ゆ嫹...");
 			stmt = conn.createStatement();
 
 			ResultSet rs = stmt.executeQuery(sql);
@@ -41,11 +41,11 @@ public class MySQLConnector {
 			return rs;
 
 		} catch (SQLException se) {
-			// 锟斤拷锟斤拷 JDBC 锟斤拷锟斤拷
+			// 閿熸枻鎷烽敓鏂ゆ嫹 JDBC 閿熸枻鎷烽敓鏂ゆ嫹
 			se.printStackTrace();
 			return null;
 		} catch (Exception e) {
-			// 锟斤拷锟斤拷 Class.forName 锟斤拷锟斤拷
+			// 閿熸枻鎷烽敓鏂ゆ嫹 Class.forName 閿熸枻鎷烽敓鏂ゆ嫹
 			e.printStackTrace();
 			return null;
 		}
@@ -54,23 +54,23 @@ public class MySQLConnector {
 	public static void connect(String sql) {
 
 		try {
-			// 注锟斤拷 JDBC 锟斤拷锟斤拷
+			// 娉ㄩ敓鏂ゆ嫹 JDBC 閿熸枻鎷烽敓鏂ゆ嫹
 			Class.forName(JDBC_DRIVER);
 
-			// 锟斤拷锟斤拷锟斤拷
+			// 閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷�
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
-			// 执锟叫诧拷询
+			// 鎵ч敓鍙鎷疯
 			stmt = conn.createStatement();
 
 			stmt.execute(sql);
 
 		} catch (SQLException se) {
-			// 锟斤拷锟斤拷 JDBC 锟斤拷锟斤拷
+			// 閿熸枻鎷烽敓鏂ゆ嫹 JDBC 閿熸枻鎷烽敓鏂ゆ嫹
 			se.printStackTrace();
 
 		} catch (Exception e) {
-			// 锟斤拷锟斤拷 Class.forName 锟斤拷锟斤拷
+			// 閿熸枻鎷烽敓鏂ゆ嫹 Class.forName 閿熸枻鎷烽敓鏂ゆ嫹
 			e.printStackTrace();
 
 		}
@@ -79,7 +79,7 @@ public class MySQLConnector {
 	public static void disconnect() {
 		try {
 
-			// 锟斤拷珊锟截憋拷
+			// 閿熸枻鎷风強閿熸埅鎲嬫嫹
 			if (stmt != null)
 				stmt.close();
 

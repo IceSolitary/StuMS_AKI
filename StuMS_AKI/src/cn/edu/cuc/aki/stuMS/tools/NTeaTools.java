@@ -126,8 +126,8 @@ public class NTeaTools implements LogIplm {
 				String sid = rsSet.getString("sid");
 				String sname = rsSet.getString("name");
 				String grade = rsSet.getString("grade");
-				if(grade=="-1") {
-					grade=null;
+				if(grade.equals("-1")) {
+					grade="烫烫烫";
 				}
 				String[] info = { kkid, cname, sid, sname, grade };
 				data.add(info);

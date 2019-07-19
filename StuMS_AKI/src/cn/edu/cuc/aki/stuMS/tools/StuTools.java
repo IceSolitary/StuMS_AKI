@@ -74,8 +74,8 @@ public class StuTools {
 				String tid = rsSet.getString("tid");
 				String tname = rsSet.getString("tname");
 				String grade = rsSet.getString("grade");
-				if(grade=="-1") {
-					grade=null;
+				if(grade.equals("-1")) {
+					grade="лллллл";
 				}
 				String[] info = { kkid, cname, tid, tname, grade };
 				data.add(info);

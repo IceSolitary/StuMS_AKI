@@ -167,13 +167,13 @@ public class StudentConsularPanel extends JPanel {
 						currentScDataTemp = scDataRefer;
 					}
 					
-					// refresh scTable
-					String[] scName = {"课程号", "课程名", "学生号", "学生名", "成绩"};
+					String[] scName = {"课程号", "课程名", "学生号", "学生名", "教工号", "教工名", "成绩"};
 					int cscRowCount = currentScDataTemp.size();
-			        String[][] cscData = new String[cscRowCount][5];
+			        String[][] cscData = new String[cscRowCount][7];
 			        for (int i = 0; i < cscRowCount; i++) {
 						cscData[i] = currentScDataTemp.get(i);
 					}
+
 					parentFrame.studentConsularPanel.scModel = new NotEditableTableModel(cscData, scName, -1);
 					parentFrame.studentConsularPanel.scTable.setModel(parentFrame.studentConsularPanel.scModel);
 					parentFrame.studentConsularPanel.scTable.setRowSorter(new TableRowSorter<TableModel>(parentFrame.studentConsularPanel.scModel));
@@ -223,9 +223,9 @@ public class StudentConsularPanel extends JPanel {
 					}
 					
 					// refresh scTable
-					String[] scName = {"课程号", "课程名", "学生号", "学生名", "成绩"};
+					String[] scName = {"课程号", "课程名", "学生号", "学生名", "教工号", "教工名", "成绩"};
 					int cscRowCount = currentScDataTemp.size();
-			        String[][] cscData = new String[cscRowCount][5];
+			        String[][] cscData = new String[cscRowCount][7];
 			        for (int i = 0; i < cscRowCount; i++) {
 						cscData[i] = currentScDataTemp.get(i);
 					}
@@ -393,6 +393,8 @@ public class StudentConsularPanel extends JPanel {
 			// set scCourseComboBox & scStudentCombox Data END
 			
 			// set ctCourseComboBox & ctStudentCombox Data
+			this.ctCourseComboBox.removeAllItems();
+			this.ctNTeacherComboBox.removeAllItems();
 			
 			for (String[] tuple : this.allCTCourses) {
 				this.ctCourseComboBox.addItem(tuple[1]);
@@ -403,9 +405,9 @@ public class StudentConsularPanel extends JPanel {
 			// set ctCourseComboBox & ctStudentCombox Data END
 			
 	        // set scTable & ctTable
-	        String[] scName = {"课程号", "课程名", "学生号", "学生名", "成绩"};
+	        String[] scName = {"课程号", "课程名", "学生号", "学生名", "教工号", "教工名", "成绩"};
 	        int scRowCount = this.scData.size();
-	        String[][] scData = new String[scRowCount][5];
+	        String[][] scData = new String[scRowCount][7];
 	        for (int i = 0; i < this.scData.size(); i++) {
 				scData[i] = this.scData.get(i);
 			}

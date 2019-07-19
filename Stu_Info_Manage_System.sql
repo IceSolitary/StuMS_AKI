@@ -14,7 +14,7 @@ CREATE TABLE `Stu_Info_Manage_System`.`user` (
 
 CREATE TABLE `Stu_Info_Manage_System`.`stu` (
   `sid` varchar(10) NOT NULL,
-  `name` varchar(10) NOT NULL,
+  `name` varchar(20) NOT NULL,
   `sex` int(11) DEFAULT NULL,
   `age` int(11) DEFAULT NULL,
   `major` varchar(20) DEFAULT NULL,
