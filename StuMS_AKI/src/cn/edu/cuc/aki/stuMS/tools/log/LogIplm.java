@@ -34,6 +34,10 @@ public interface LogIplm {
 		try {
 
 			String fileName = "./log/MyMSlog";
+			File file = new File(fileName);
+			if(!file.exists()) {
+				file.mkdirs();
+			}
 			BufferedWriter out = new BufferedWriter(new FileWriter(fileName,true));
 			out.write("-----------" + type.toString() + "----------");
 			out.newLine();
